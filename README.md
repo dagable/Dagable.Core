@@ -1,1 +1,1 @@
-# dag.generator.core
+# Dagifier.Core
