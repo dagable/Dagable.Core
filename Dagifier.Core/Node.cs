@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagifier.Core
 {
-    public sealed class Node : INode, IComparable<Node>
+    internal sealed class Node : INode, IComparable<Node>
     {
         public int Id { get; private set; }
         public HashSet<Node> SuccessorNodes { get; }

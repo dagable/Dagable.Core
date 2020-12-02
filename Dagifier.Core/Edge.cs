@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagifier.Core
 {
-    public sealed class Edge : IComparable<Edge>
+    internal sealed class Edge : IComparable<Edge>
     {
         public Node PrevNode { get; }
         public Node NextNode { get; }

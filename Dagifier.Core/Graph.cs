@@ -2,11 +2,11 @@
 
 namespace Dagifier.Core
 {
-    public sealed class Graph : IGraph
+    internal sealed class Graph : IGraph
     {
         public HashSet<Edge> Edges { get; }
 
-        private readonly HashSet<Node> Nodes;
+        private HashSet<Node> Nodes;
 
         public Graph() {
             Edges = new HashSet<Edge>();
@@ -30,6 +30,7 @@ namespace Dagifier.Core
                 Nodes.Add(nextNode);
                 Edges.Add(edge);
             }
+
             return edge;
         }
     }

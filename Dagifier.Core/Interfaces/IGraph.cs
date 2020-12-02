@@ -1,6 +1,6 @@
 ﻿namespace Dagifier.Core
 {
-    public interface IGraph
+    internal interface IGraph
     {
         /// <summary>
         /// Method used to add a new edge to the graph given two nodes

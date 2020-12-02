@@ -1,6 +1,6 @@
 ﻿namespace Dagifier.Core
 {
-    public interface INode
+    internal interface INode
     {
         /// <summary>
         /// Method used to add a successor or "next node" to this node.
