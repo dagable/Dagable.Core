@@ -1,15 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Dagifier.Core
 {
-    public sealed class Node : IComparable<Node>
+    public sealed class Node : INode, IComparable<Node>
     {
         public int Id { get; private set; }
+        public HashSet<Node> SuccessorNodes { get; }
+        public HashSet<Node> PredecessorNodes { get; }
 
-        public Node() { }
+        public Node() {
+            SuccessorNodes = new HashSet<Node>();
+            PredecessorNodes = new HashSet<Node>();
+        }
 
-        public Node(int id)
+        /// <inheritdoc cref="INode.AddSuccessor(Node)"/>
+        public bool AddSuccessor(Node n)
+        {
+            return SuccessorNodes.Add(n);
+        }
+
+        /// <inheritdoc cref="INode.AddPredecessor(Node)"/>
+        public bool AddPredecessor(Node n)
+        {
+            return PredecessorNodes.Add(n);
+        }
+
+        public Node(int id) : this()
         {
             Id = id;
         }

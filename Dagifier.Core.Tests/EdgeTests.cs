@@ -50,5 +50,18 @@ namespace Dagifier.Core.Tests
 
             Assert.AreNotEqual(firstEdge.GetHashCode(), secondEdge.GetHashCode());
         }
+
+        [TestMethod]
+        public void Add_NewEdge_ShouldBeCorrectPredecessorAndSuccessorNodes()
+        {
+            var firstNode = new Node(0);
+            var secondNode = new Node(1);
+            _ = new Edge(firstNode, secondNode);
+
+            Assert.IsTrue(firstNode.SuccessorNodes.Contains(secondNode));
+            Assert.IsTrue(secondNode.PredecessorNodes.Contains(firstNode));
+            Assert.AreEqual(firstNode.PredecessorNodes.Count, 0);
+            Assert.AreEqual(secondNode.SuccessorNodes.Count, 0);
+        }
     }
 }
