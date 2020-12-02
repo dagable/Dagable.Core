@@ -6,7 +6,7 @@ namespace Dagifier.Core
     {
         public HashSet<Edge> Edges { get; }
 
-        private HashSet<Node> Nodes;
+        private readonly HashSet<Node> Nodes;
 
         public Graph() {
             Edges = new HashSet<Edge>();
