@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+dotnet: 5.0.0
+script:
+  - dotnet restore Dagifier.Core
+  - dotnet restore Dagifier.Core.Tests
+  - dotnet test Dagifier.Core.Tests
