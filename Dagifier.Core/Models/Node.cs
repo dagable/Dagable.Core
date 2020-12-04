@@ -4,13 +4,17 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagifier.Core
 {
-    internal sealed class Node : INode, IComparable<Node>
+    public sealed class Node : INode, IComparable<Node>
     {
         public int Id { get; private set; }
         public HashSet<Node> SuccessorNodes { get; }
         public HashSet<Node> PredecessorNodes { get; }
+        public int Layer { get; private set; }
 
-        public Node() {
+        public Node()
+        {
+            Id = default;
+            Layer = default;
             SuccessorNodes = new HashSet<Node>();
             PredecessorNodes = new HashSet<Node>();
         }
@@ -30,11 +34,17 @@ namespace Dagifier.Core
         public Node(int id) : this()
         {
             Id = id;
+            Layer = 0;
+        }
+
+        public Node(int id, int layer) : this(id)
+        {
+            Layer = layer;
         }
 
         public override bool Equals(object obj)
         {
-            if(obj == null || GetType() != obj.GetType())
+            if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }

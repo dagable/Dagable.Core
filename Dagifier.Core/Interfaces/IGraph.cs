@@ -1,7 +1,17 @@
-﻿namespace Dagifier.Core
+﻿using System.Collections.Generic;
+
+namespace Dagifier.Core
 {
-    internal interface IGraph
+    public interface IGraph
     {
+        /// <summary>
+        /// A Method that will connect a node to a list of nodes
+        /// </summary>
+        /// <param name="i">the node that we want to update the successors of</param>
+        /// <param name="nextNodes">The successor nodes of this node</param>
+        /// <returns>true if all of the edges were added, false if atleast one of the edges already exists.</returns>
+        bool AddEdges(Node i, IEnumerable<Node> nextNodes);
+
         /// <summary>
         /// Method used to add a new edge to the graph given two nodes
         /// </summary>
@@ -18,5 +28,12 @@
         /// <parma name="e">The edge that we want to add to the graph</parma>
         /// <returns>The mewly created edge</returns>
         Edge AddEdge(Node i, Node j, Edge e);
+
+        /// <summary>
+        /// Method used to add a new Node to the graph
+        /// </summary>
+        /// <param name="n">the node that want to add to the graph.</param>
+        /// <returns>True if the node was added to the graph. False if the node already existed</returns>
+        bool AddNode(Node n);
     }
 }
