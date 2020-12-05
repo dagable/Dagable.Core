@@ -9,7 +9,6 @@ namespace Dagifier.Core
         public int NodeCount { get; private set; }
 
         private const double PROBABILITY = 0.50d;
-
         private static readonly Random random = new Random();
 
         public GraphCreator Setup(int layers)

@@ -35,5 +35,7 @@ namespace Dagifier.Core
         /// <param name="n">the node that want to add to the graph.</param>
         /// <returns>True if the node was added to the graph. False if the node already existed</returns>
         bool AddNode(Node n);
+
+        List<Node> KhansTopologySort();
     }
 }
