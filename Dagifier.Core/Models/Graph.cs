@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Dagifier.Core
 {
-    public sealed class Graph : IGraph
+    internal sealed class Graph : IGraph
     {
         public HashSet<Edge> Edges { get; }
 
@@ -56,46 +56,6 @@ namespace Dagifier.Core
         {
             return Nodes.Add(n);
         }
-
-        public List<Node> KhansTopologySort()
-        {
-            var sortedNodes = new List<Node>();
-
-            var noIncomingEdges = new HashSet<Node>(Nodes.Where(n => Edges.All(x => x.NextNode.Equals(n) == false)));
-
-            while (noIncomingEdges.Any())
-            {
-                var n = noIncomingEdges.First();
-                noIncomingEdges.Remove(n);
-
-                sortedNodes.Add(n);
-
-                foreach (var e in Edges.Where(e => e.PrevNode.Equals(n)).ToList())
-                {
-                    var m = e.NextNode;
-
-                    // remove edge e from the graph
-                    Edges.Remove(e);
-
-                    // if m has no other incoming edges then
-                    if (Edges.All(me => me.NextNode.Equals(m) == false))
-                    {
-                        // insert m into S
-                        noIncomingEdges.Add(m);
-                    }
-                }
-            }
-            // if graph has edges then
-            if (Edges.Any())
-            {
-                // return error (graph has at least one cycle)
-                return null;
-            }
-            else
-            {
-                // return L (a topologically sorted order)
-                return sortedNodes;
-            }
-        }
+              
     }
 }

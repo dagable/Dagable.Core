@@ -5,25 +5,20 @@ namespace Dagifier.Core.Tests
     [TestClass]
     public class GraphCreatorTests
     {
-        private GraphCreator creator;
+        private DagCreator creator;
 
-        [TestInitialize]
-        public void Setup()
-        {
-            creator = new GraphCreator();
-        }
 
         [TestMethod]
         public void Setup_GraphCreation_LayerCountIsCorrect()
         {
-            creator.Setup(10);
+            creator = new DagCreator(10);
             Assert.AreEqual(creator.LayerCount, 10);
         }
 
         [TestMethod]
         public void Setup_GraphCreation_NodeCountIsCorrect()
         {
-            creator.Setup(10, 20);
+            creator = new DagCreator(10, 20);
             Assert.AreEqual(creator.NodeCount, 20);
             Assert.AreEqual(creator.LayerCount, 10);
         }
@@ -31,19 +26,15 @@ namespace Dagifier.Core.Tests
         [TestMethod]
         public void Setup_GraphCreation_IsValid()
         {
-            var graph = creator.Setup(10, 30).Execute();
-
-            Assert.IsTrue(graph.KhansTopologySort() != null);
+            creator = new DagCreator(10, 30);
+            Assert.IsTrue(creator.Generate().TopologySortedGraph() != null);
         }
 
         [TestMethod]
         public void Setup_GraphCreationSecond_IsValidRandom()
         {
-            var graph = creator.Setup(10, 10).Execute();
-
-            var order = graph.KhansTopologySort();
-
-            Assert.IsTrue(order != null);
+            creator = new DagCreator(10, 10);
+            Assert.IsTrue(creator.Generate().TopologySortedGraph() != null);
         }
 
 
@@ -61,7 +52,7 @@ namespace Dagifier.Core.Tests
             graph.AddEdge(b, c);
             graph.AddEdge(c, a);
 
-            Assert.IsTrue(graph.KhansTopologySort() == null);
+            Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) == null);
         }
 
         [TestMethod]
@@ -78,7 +69,7 @@ namespace Dagifier.Core.Tests
             graph.AddEdge(b, c);
             graph.AddEdge(a, c);
 
-            Assert.IsTrue(graph.KhansTopologySort() != null);
+            Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) != null);
         }
     }
 }

@@ -40,3 +40,5 @@ else
 > Tobita, Takao, and Hironori Kasahara. "A standard task graph set for fair evaluation of > multiprocessor scheduling algorithms." Journal of Scheduling 5.5 (2002): 379-394.
 
 > Adam, Thomas L., K. Mani Chandy, and J. R. Dickson. "A comparison of list schedules for parallel processing systems." *Communications of the ACM* 17.12 (1974): 685-690.
+
+> A. B. Kahn. 1962. Topological sorting of large networks. Commun. ACM 5, 11 (Nov. 1962), 558–562. DOI:https://doi.org/10.1145/368996.369025

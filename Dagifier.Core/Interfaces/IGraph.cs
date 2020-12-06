@@ -2,7 +2,7 @@
 
 namespace Dagifier.Core
 {
-    public interface IGraph
+    internal interface IGraph
     {
         /// <summary>
         /// A Method that will connect a node to a list of nodes
@@ -36,6 +36,5 @@ namespace Dagifier.Core
         /// <returns>True if the node was added to the graph. False if the node already existed</returns>
         bool AddNode(Node n);
 
-        List<Node> KhansTopologySort();
     }
 }
