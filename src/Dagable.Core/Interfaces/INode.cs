@@ -1,4 +1,4 @@
-﻿namespace Dagifier.Core
+﻿namespace Dagable.Core
 {
     internal interface INode
     {

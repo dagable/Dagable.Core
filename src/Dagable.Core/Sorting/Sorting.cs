@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Dagifier.Core
+namespace Dagable.Core
 {
     public static class Sorting
     {

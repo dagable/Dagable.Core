@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 
 [assembly: Guid("f5490ebe-3e11-49f6-9409-9cfc440557a5")]
-[assembly: InternalsVisibleTo("Dagifier.Core.Tests")]
+[assembly: InternalsVisibleTo("Dagable.Core.Tests")]

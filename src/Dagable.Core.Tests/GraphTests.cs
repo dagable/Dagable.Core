@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace Dagifier.Core.Tests
+namespace Dagable.Core.Tests
 {
     [TestClass]
     public class GraphTests

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Dagifier.Core
+namespace Dagable.Core
 {
     public sealed class Node : INode, IComparable<Node>
     {

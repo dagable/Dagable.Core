@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dagifier.Core\Dagifier.Core.csproj" />
+    <ProjectReference Include="..\Dagable.Core\Dagable.Core.csproj" />
   </ItemGroup>
 
 </Project>

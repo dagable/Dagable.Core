@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dagifier.Core.Tests
+namespace Dagable.Core.Tests
 {
     [TestClass]
     public class NodeTests
