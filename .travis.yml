@@ -2,6 +2,6 @@ language: csharp
 mono: none
 dotnet: 5.0
 script:
-  - dotnet restore Dagable.Core
-  - dotnet restore Dagable.Core.Tests
-  - dotnet test Dagable.Core.Tests
+  - dotnet restore src/Dagable.Core
+  - dotnet restore src/Dagable.Core.Tests
+  - dotnet test src/Dagable.Core.Tests
