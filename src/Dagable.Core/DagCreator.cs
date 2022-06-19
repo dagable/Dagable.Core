@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -91,6 +92,15 @@ namespace Dagable.Core
         public List<Node> TopologySortedGraph()
         {
             return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
+        }
+
+        public string AsJson()
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                Nodes= dagGraph.Nodes.Select(x => new { Id = x.Id, Label = x.Id}),
+                Edges = dagGraph.Edges.Select(x => new { From = x.PrevNode.Id, To = x.NextNode.Id })
+            });
         }
     }
 }

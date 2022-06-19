@@ -56,6 +56,5 @@ namespace Dagable.Core
         {
             return Nodes.Add(n);
         }
-              
     }
 }

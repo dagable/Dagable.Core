@@ -1,23 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>jwmxyz</Authors>
-    <Version>0.0.1-alpha</Version>
-    <PackageProjectUrl>jwm.xyz</PackageProjectUrl>
-    <PackageIcon>New Project.png</PackageIcon>
+    <Version>0.0.1-alpha-$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+    <PackageProjectUrl>https://jwm.xyz</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\..\Users\John\Downloads\New Project.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>
