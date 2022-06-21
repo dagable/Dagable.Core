@@ -30,6 +30,12 @@ namespace Dagable.Core
             return nextNodes.ToList().TrueForAll(x => AddEdge(i, x));
         }
 
+        /// <inheritdoc cref="IGraph.AddEdges(IEnumerable{Node}, Node)" />
+        public bool AddEdges(IEnumerable<Node> prevNodes, Node i)
+        {
+            return prevNodes.ToList().TrueForAll(x => AddEdge(i, x));
+        }
+
         /// <inheritdoc cref="IGraph.AddEdge(Node, Node)" />
         public bool AddEdge(Node prevNode, Node nextNode)
         {

@@ -16,6 +16,13 @@ namespace Dagable.Core.Tests
         }
 
         [TestMethod]
+        public void Setup_GraphCreations_LayerCountIsCorrect()
+        {
+            var jsonResult = new DagCreator(10).Generate().AsJson();
+            Assert.AreEqual(creator.LayerCount, 10);
+        }
+
+        [TestMethod]
         public void Setup_GraphCreation_NodeCountIsCorrect()
         {
             creator = new DagCreator(10, 20);
@@ -34,7 +41,8 @@ namespace Dagable.Core.Tests
         public void Setup_GraphCreationSecond_IsValidRandom()
         {
             creator = new DagCreator(10, 10);
-            Assert.IsTrue(creator.Generate().TopologySortedGraph() != null);
+            var sorted = creator.Generate().TopologySortedGraph();
+            Assert.IsTrue(sorted != null);
         }
 
 
@@ -70,6 +78,20 @@ namespace Dagable.Core.Tests
             graph.AddEdge(a, c);
 
             Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) != null);
+        }
+
+        [TestMethod]
+        public void Setup_RootNodeConnectedToAllFirstLayer_IsValid()
+        {
+            var graph = new Graph();
+            var a = new Node(0, 0);
+            var b = new Node(1, 1);
+            var c = new Node(2, 1);
+
+            graph.AddEdges(a, new[] { b, c });
+
+            Assert.IsTrue(a.SuccessorNodes.Count == 2);
+            Assert.IsTrue(graph.Edges.Count == 2);
         }
     }
 }

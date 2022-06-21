@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Dagable.Core.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace Dagable.Core
             {
                 var layer = random.Next(1, LayerCount);
                 if (i < LayerCount) layer = i;
-                dagGraph.AddNode(new Node(i, layer));
+                    dagGraph.AddNode(new Node(i, layer));
             }
 
             foreach (Node n in dagGraph.Nodes)
@@ -82,6 +83,15 @@ namespace Dagable.Core
                     }
                 }
             }
+
+            var nodesWithNoPredecessorNodes = dagGraph.Nodes.Where(x => !x.PredecessorNodes.Any() && x.Layer != 0);
+            
+            foreach (Node n in nodesWithNoPredecessorNodes.ToList())
+            {
+                dagGraph.AddEdges(dagGraph.Nodes.First(x => x.Layer == 0), nodesWithNoPredecessorNodes);
+                
+            }
+
             return this;
         }
 
@@ -98,8 +108,8 @@ namespace Dagable.Core
         {
             return JsonConvert.SerializeObject(new
             {
-                Nodes= dagGraph.Nodes.Select(x => new { Id = x.Id, Label = x.Id}),
-                Edges = dagGraph.Edges.Select(x => new { From = x.PrevNode.Id, To = x.NextNode.Id })
+               Nodes= dagGraph.Nodes.ReorderNodeLayers().Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer}),
+               Edges = dagGraph.Edges.Select((x,i) => new {id= $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id })
             });
         }
     }

@@ -15,5 +15,11 @@
         /// <param name="n">The node that is a predessor to this node</param>
         /// <returns>true if the node was added to the collcetion; false if it was already a predecessor.</returns>
         bool AddPredecessor(Node n);
+
+        /// <summary>
+        /// Will set the layer to be on the first layer.
+        /// This should only be calle when the node has no predecessor nodes. Used for display purposes.
+        /// </summary>
+        Node UpdateLayer(int layer);
     }
 }

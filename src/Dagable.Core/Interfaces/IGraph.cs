@@ -13,6 +13,14 @@ namespace Dagable.Core
         bool AddEdges(Node i, IEnumerable<Node> nextNodes);
 
         /// <summary>
+        /// A Method that will connect a node to a list of nodes
+        /// </summary>
+        /// <param name="i">the node that we want to update the successors of</param>
+        /// <param name="nextNodes">The successor nodes of this node</param>
+        /// <returns>true if all of the edges were added, false if atleast one of the edges already exists.</returns>
+        bool AddEdges(IEnumerable<Node> nextNodes, Node i);
+
+        /// <summary>
         /// Method used to add a new edge to the graph given two nodes
         /// </summary>
         /// <param name="i">the node we want to create the edge from.</param>

@@ -9,7 +9,7 @@ namespace Dagable.Core
         public int Id { get; private set; }
         public HashSet<Node> SuccessorNodes { get; }
         public HashSet<Node> PredecessorNodes { get; }
-        public int Layer { get; private set; }
+        public int Layer { get; set; }
 
         public Node()
         {
@@ -23,6 +23,13 @@ namespace Dagable.Core
         public bool AddSuccessor(Node n)
         {
             return SuccessorNodes.Add(n);
+        }
+
+        /// <inheritdoc cref="INode.UpdateLayer(int)"/>
+        public Node UpdateLayer(int layer)
+        {
+            Layer = layer;
+            return this;
         }
 
         /// <inheritdoc cref="INode.AddPredecessor(Node)"/>
