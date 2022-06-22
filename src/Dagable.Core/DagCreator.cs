@@ -1,5 +1,4 @@
-﻿using Dagable.Core.Extensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,10 @@ namespace Dagable.Core
         public int NodeCount { get; private set; }
 
         private readonly double _propbability;
+
         private static readonly Random random = new Random();
+
+        private Dictionary<int, List<Node>> layeredNodes = new Dictionary<int, List<Node>>();
 
         private Graph dagGraph;
 
@@ -25,7 +27,7 @@ namespace Dagable.Core
 
         public DagCreator(int layers) : this()
         {
-            LayerCount = 10;
+            LayerCount = layers;
             NodeCount = random.Next(layers, layers * 2);
         }
 
@@ -42,11 +44,11 @@ namespace Dagable.Core
         {
             if (probability > 1.0d)
             {
-                _propbability = 1.0d;
+                probability = 1.0d;
             }
             if (probability < 0.0d)
             {
-                _propbability = 0;
+                probability = 0;
             }
             _propbability = probability;
         }
@@ -77,19 +79,25 @@ namespace Dagable.Core
 
                 foreach (Node nextLayernode in nextLayerNodes)
                 {
-                    if (random.NextDouble() >= _propbability)
+                    var probability = random.NextDouble();
+                    if (probability <= _propbability)
                     {
                         dagGraph.AddEdge(n, nextLayernode);
                     }
                 }
             }
 
-            var nodesWithNoPredecessorNodes = dagGraph.Nodes.Where(x => !x.PredecessorNodes.Any() && x.Layer != 0);
+           var nodesWithNoPredecessorNodes = dagGraph.Nodes.Where(x => !x.PredecessorNodes.Any() && x.Layer != 0);
             
             foreach (Node n in nodesWithNoPredecessorNodes.ToList())
             {
-                dagGraph.AddEdges(dagGraph.Nodes.First(x => x.Layer == 0), nodesWithNoPredecessorNodes);
-                
+                var layer = n.Layer - 1;
+                if (!layeredNodes.ContainsKey(layer))
+                {
+                    layeredNodes.Add(layer, dagGraph.Nodes.Where(x => x.Layer == layer).ToList());
+                }
+                var prevLayerNode = layeredNodes[layer][random.Next(layeredNodes[layer].Count)];
+                dagGraph.AddEdge(prevLayerNode, n);
             }
 
             return this;
@@ -108,7 +116,7 @@ namespace Dagable.Core
         {
             return JsonConvert.SerializeObject(new
             {
-               Nodes= dagGraph.Nodes.ReorderNodeLayers().Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer}),
+               Nodes= dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer}),
                Edges = dagGraph.Edges.Select((x,i) => new {id= $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id })
             });
         }

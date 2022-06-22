@@ -22,7 +22,8 @@ namespace Dagable.Core.Tests
         public void Add_EdgeToGraph_ShouldBeASuccess()
         {
             var result = testGraph.AddEdge(firstTestNode, secondTestNode);
-
+            Assert.IsTrue(firstTestNode.SuccessorNodes.Count == 1);
+            Assert.IsTrue(secondTestNode.PredecessorNodes.Count == 1);
             Assert.AreEqual(result, true);
             Assert.AreEqual(testGraph.Edges.Count, 1);
         }
@@ -32,8 +33,7 @@ namespace Dagable.Core.Tests
         {
             testGraph.AddEdge(firstTestNode, secondTestNode);
             testGraph.AddEdge(firstTestNode, secondTestNode);
-
-            Assert.AreEqual(testGraph.Edges.Count, 1);
+            Assert.AreEqual(firstTestNode.SuccessorNodes.Count, 1);
         }
 
         [TestMethod]

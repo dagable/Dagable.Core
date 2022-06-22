@@ -20,9 +20,10 @@ namespace Dagable.Core
         }
 
         /// <inheritdoc cref="INode.AddSuccessor(Node)"/>
-        public bool AddSuccessor(Node n)
+        public Node AddSuccessor(Node n)
         {
-            return SuccessorNodes.Add(n);
+            SuccessorNodes.Add(n);
+            return this;
         }
 
         /// <inheritdoc cref="INode.UpdateLayer(int)"/>
@@ -33,9 +34,10 @@ namespace Dagable.Core
         }
 
         /// <inheritdoc cref="INode.AddPredecessor(Node)"/>
-        public bool AddPredecessor(Node n)
+        public Node AddPredecessor(Node n)
         {
-            return PredecessorNodes.Add(n);
+            PredecessorNodes.Add(n);
+            return this;
         }
 
         public Node(int id) : this()

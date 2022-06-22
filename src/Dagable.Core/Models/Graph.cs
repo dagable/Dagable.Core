@@ -39,8 +39,8 @@ namespace Dagable.Core
         /// <inheritdoc cref="IGraph.AddEdge(Node, Node)" />
         public bool AddEdge(Node prevNode, Node nextNode)
         {
-            Nodes.Add(prevNode);
-            Nodes.Add(nextNode);
+            Nodes.Add(prevNode.AddSuccessor(nextNode));
+            Nodes.Add(nextNode.AddPredecessor(prevNode));
             return Edges.Add(new Edge(prevNode, nextNode));
         }
 
