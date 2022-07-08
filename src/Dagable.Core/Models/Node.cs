@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core
 {
-    public sealed class Node : INode, IComparable<Node>
+    public class Node : INode<Node>, IComparable<Node>
     {
         public int Id { get; private set; }
         public HashSet<Node> SuccessorNodes { get; }

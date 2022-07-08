@@ -3,10 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core
 {
-    public sealed class Edge : IComparable<Edge>
+    public class Edge : IEdge<Node, Edge>, IComparable<Edge>
     {
-        public Node PrevNode { get; }
-        public Node NextNode { get; }
+        public Node PrevNode { get; set; }
+        public Node NextNode { get; set; }
 
         public Edge() { }
 

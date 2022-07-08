@@ -5,13 +5,13 @@ namespace Dagable.Core.Tests
     [TestClass]
     public class GraphCreatorTests
     {
-        private DagCreator creator;
+        private DagCreator.Standard creator;
 
 
         [TestMethod]
         public void Setup_GraphCreation_LayerCountIsCorrect()
         {
-            creator = new DagCreator(10);
+            creator = new DagCreator.Standard(10);
             Assert.AreEqual(creator.LayerCount, 10);
         }
 
@@ -40,7 +40,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreationSecond_IsValidRandom()
         {
-            creator = new DagCreator(10, 10);
+            creator = new DagCreator.Standard(10, 10);
             var sorted = creator.Generate().TopologySortedGraph();
             Assert.IsTrue(sorted != null);
         }
@@ -49,7 +49,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreated_IsInvalid()
         {
-            var graph = new Graph();
+            var graph = new Graph<Node, Edge>();
 
             var a = new Node(0);
             var b = new Node(1);
@@ -66,7 +66,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreated_IsValid()
         {
-            var graph = new Graph();
+            var graph = new Graph<Node, Edge>();
 
             var a = new Node(0);
             var b = new Node(1);

@@ -8,14 +8,14 @@ namespace Dagable.Core.Tests
     {
         private Node firstTestNode;
         private Node secondTestNode;
-        private Graph testGraph;
+        private Graph<Node, Edge> testGraph;
 
         [TestInitialize]
         public void Setup()
         {
             firstTestNode = new Node(0);
             secondTestNode = new Node(1);
-            testGraph = new Graph();
+            testGraph = new Graph<Node, Edge>();
         }
 
         [TestMethod]
