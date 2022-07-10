@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Dagable.Core.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
 namespace Dagable.Core.Tests
@@ -8,14 +9,14 @@ namespace Dagable.Core.Tests
     {
         private Node firstTestNode;
         private Node secondTestNode;
-        private Graph<Node, Edge> testGraph;
+        private Graph<Node, Edge<Node>> testGraph;
 
         [TestInitialize]
         public void Setup()
         {
             firstTestNode = new Node(0);
             secondTestNode = new Node(1);
-            testGraph = new Graph<Node, Edge>();
+            testGraph = new Graph<Node, Edge<Node>>();
         }
 
         [TestMethod]

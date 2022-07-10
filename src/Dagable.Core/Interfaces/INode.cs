@@ -1,7 +1,11 @@
-﻿namespace Dagable.Core
+﻿using System;
+
+namespace Dagable.Core
 {
     public interface INode<N> where N : INode<N>
     {
+        int GetId();
+
         /// <summary>
         /// Method used to add a successor or "next node" to this node.
         /// </summary>
@@ -21,5 +25,7 @@
         /// This should only be calle when the node has no predecessor nodes. Used for display purposes.
         /// </summary>
         N UpdateLayer(int layer);
+
+        int CompareTo<N>(N prevNode) where N : INode<N>, new();
     }
 }

@@ -4,9 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core
 {
-    public class Node : INode<Node>, IComparable<Node>
+    public class Node : INode<Node>
     {
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
         public HashSet<Node> SuccessorNodes { get; }
         public HashSet<Node> PredecessorNodes { get; }
         public int Layer { get; set; }
@@ -75,6 +75,16 @@ namespace Dagable.Core
         public int CompareTo([AllowNull] Node other)
         {
             return Id - other.Id;
+        }
+
+        int INode<Node>.GetId()
+        {
+            return Id;
+        }
+
+        public int CompareTo<N>(N prevNode) where N : INode<N>, new()
+        {
+            return CompareTo(prevNode);
         }
     }
 }

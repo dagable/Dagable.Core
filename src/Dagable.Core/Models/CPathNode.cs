@@ -1,28 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Dagable.Core.Models
 {
-    public class CPathNode : Node, INode<CPathNode>
+    public class CPathNode : Node, INode<CPathNode>, IComparable<CPathNode>
     {
         public int ComputationTime { get; set; }
+        public new HashSet<CPathNode> SuccessorNodes { get; }
+        public new HashSet<CPathNode> PredecessorNodes { get; }
 
         public CPathNode() : base() { }
 
+        public CPathNode(int id) : this()
+        {
+            Id = id;
+            Layer = 0;
+        }
+
+        public CPathNode(int id, int layer, int compTime) : this(id)
+        {
+            Layer = layer;
+            ComputationTime = compTime;
+        }
+
         public CPathNode AddSuccessor(CPathNode n)
         {
-            throw new NotImplementedException();
+            SuccessorNodes.Add(n);
+            return this;
         }
 
         public CPathNode AddPredecessor(CPathNode n)
         {
-            throw new NotImplementedException();
+            PredecessorNodes.Add(n);
+            return this;
         }
 
-        CPathNode INode<CPathNode>.UpdateLayer(int layer)
+        public new CPathNode UpdateLayer(int layer)
         {
-            throw new NotImplementedException();
+            Layer = layer;
+            return this;
+        }
+
+        public int CompareTo([AllowNull] CPathNode other)
+        {
+            if(base.CompareTo(other) == 0)
+            {
+                return ComputationTime - other.ComputationTime;
+            }
+            return 0;
+        }
+
+        int INode<CPathNode>.GetId()
+        {
+            return Id;
         }
     }
 }

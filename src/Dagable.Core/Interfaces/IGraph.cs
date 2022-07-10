@@ -2,7 +2,7 @@
 
 namespace Dagable.Core
 {
-    internal interface IGraph<N, E> where N : INode<N> where E : IEdge<N, E>, new()
+    internal interface IGraph<N, E> where N : INode<N> where E : IEdge<N>, new()
     {
         /// <summary>
         /// A Method that will connect a node to a list of nodes

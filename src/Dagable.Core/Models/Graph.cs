@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Dagable.Core.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dagable.Core
 {
-    internal class Graph<N, E> : IGraph<N,E> where N : INode<N> where E : IEdge<N, E>, new()
+    internal class Graph<N, E> : IGraph<N,E> where N : INode<N> where E : IEdge<N>, new()
     {
         public HashSet<E> Edges { get; }
 
@@ -41,9 +42,11 @@ namespace Dagable.Core
         {
             Nodes.Add(prevNode.AddSuccessor(nextNode));
             Nodes.Add(nextNode.AddPredecessor(prevNode));
-            var newEdge = new E();
-            newEdge.NextNode = nextNode;
-            newEdge.PrevNode = prevNode;
+            var newEdge = new E
+            {
+                NextNode = nextNode,
+                PrevNode = prevNode,
+            };
             return Edges.Add(newEdge);
         }
 

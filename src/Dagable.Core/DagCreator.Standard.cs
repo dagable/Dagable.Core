@@ -7,6 +7,8 @@ namespace Dagable.Core
 {
     public sealed partial class DagCreator
     {
+        static readonly Random random = new Random();
+
         public class Standard : IDagCreation<Standard>
         {
             protected int LayerCount { get; private set; }
@@ -14,9 +16,7 @@ namespace Dagable.Core
 
             protected readonly double _propbability;
 
-            protected static readonly Random random = new Random();
-
-            internal Graph<Node, Edge> dagGraph;
+            internal Graph<Node, Edge<Node>> dagGraph;
 
             protected readonly Dictionary<int, List<Node>> _layeredNodes = new Dictionary<int, List<Node>>();
 
@@ -61,7 +61,7 @@ namespace Dagable.Core
             /// <returns></returns>
             public Standard Generate()
             { 
-                dagGraph = new Graph<Node, Edge>(new Node());
+                dagGraph = new Graph<Node, Edge<Node>>(new Node());
                 for (int i = 0; i < NodeCount; ++i)
                 {
                     var layer = random.Next(1, LayerCount);
@@ -111,7 +111,7 @@ namespace Dagable.Core
             /// <returns>A list of nodes that have been topology sorted using Khan's algorithm.</returns>
             public List<Node> TopologySortedGraph()
             {
-                return Sorting.KhansTopologySort<Edge>(dagGraph.Nodes, dagGraph.Edges);
+                return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
             }
 
             public string AsJson()

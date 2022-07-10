@@ -8,32 +8,11 @@ namespace Dagable.Core.Tests
         private DagCreator.Standard creator;
 
 
-        [TestMethod]
-        public void Setup_GraphCreation_LayerCountIsCorrect()
-        {
-            creator = new DagCreator.Standard(10);
-            Assert.AreEqual(creator.LayerCount, 10);
-        }
-
-        [TestMethod]
-        public void Setup_GraphCreations_LayerCountIsCorrect()
-        {
-            var jsonResult = new DagCreator(10).Generate().AsJson();
-            Assert.AreEqual(creator.LayerCount, 10);
-        }
-
-        [TestMethod]
-        public void Setup_GraphCreation_NodeCountIsCorrect()
-        {
-            creator = new DagCreator(10, 20);
-            Assert.AreEqual(creator.NodeCount, 20);
-            Assert.AreEqual(creator.LayerCount, 10);
-        }
 
         [TestMethod]
         public void Setup_GraphCreation_IsValid()
         {
-            creator = new DagCreator(10, 30);
+            creator = new DagCreator.Standard(10, 30);
             Assert.IsTrue(creator.Generate().TopologySortedGraph() != null);
         }
 
@@ -49,7 +28,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreated_IsInvalid()
         {
-            var graph = new Graph<Node, Edge>();
+            var graph = new Graph<Node, Edge<Node>>();
 
             var a = new Node(0);
             var b = new Node(1);
@@ -66,7 +45,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreated_IsValid()
         {
-            var graph = new Graph<Node, Edge>();
+            var graph = new Graph<Node, Edge<Node>>();
 
             var a = new Node(0);
             var b = new Node(1);
@@ -83,7 +62,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_RootNodeConnectedToAllFirstLayer_IsValid()
         {
-            var graph = new Graph();
+            var graph = new Graph<Node, Edge<Node>>();
             var a = new Node(0, 0);
             var b = new Node(1, 1);
             var c = new Node(2, 1);
