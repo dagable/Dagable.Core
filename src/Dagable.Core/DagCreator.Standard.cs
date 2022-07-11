@@ -84,7 +84,7 @@ namespace Dagable.Core
                         var probability = random.NextDouble();
                         if (probability <= _propbability)
                         {
-                            dagGraph.AddEdge(n, nextLayernode);
+                            dagGraph.AddEdge(new Edge<Node>(n, nextLayernode));
                         }
                     }
                 }
@@ -99,7 +99,7 @@ namespace Dagable.Core
                         _layeredNodes.Add(layer, dagGraph.Nodes.Where(x => x.Layer == layer).ToList());
                     }
                     var prevLayerNode = _layeredNodes[layer][random.Next(_layeredNodes[layer].Count)];
-                    dagGraph.AddEdge(prevLayerNode, n);
+                    dagGraph.AddEdge(new Edge<Node>(prevLayerNode, n));
                 }
 
                 return this;

@@ -1,21 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace Dagable.Core.Models
 {
     public class CPathEdge : Edge<CPathNode>, IComparable<CPathEdge>, IEdge<CPathNode>
     {
-        public int coomunicationTime { get; set; }
+        private int CommTime { get; set; }
         public new CPathNode NextNode { get; set; }
         public new CPathNode PrevNode { get; set; }
 
-        public CPathEdge() { }
+        public CPathEdge() : base() { }
+
+        public CPathEdge(CPathNode prevNode, CPathNode nextNode, int commTime) : base(prevNode, nextNode)
+        {
+            CommTime = commTime;
+        }
 
         public int CompareTo([AllowNull] CPathEdge other)
         {
-            return 0;
+            var baseCompare = base.CompareTo(other);
+            return baseCompare == 0 ? CommTime - other.CommTime : baseCompare;
         }
     }
 }

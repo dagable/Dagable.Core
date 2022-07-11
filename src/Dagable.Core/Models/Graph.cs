@@ -28,39 +28,35 @@ namespace Dagable.Core
         /// <inheritdoc cref="IGraph.AddEdges(N, IEnumerable{N})" />
         public bool AddEdges(N i, IEnumerable<N> nextNodes)
         {
-            return nextNodes.ToList().TrueForAll(x => AddEdge(i, x));
+            return nextNodes.ToList().TrueForAll(x => AddEdge(new E
+            {
+                NextNode = x,
+                PrevNode = i
+            }));
         }
 
         /// <inheritdoc cref="IGraph.AddEdges(IEnumerable{N}, N)" />
         public bool AddEdges(IEnumerable<N> prevNodes, N i)
         {
-            return prevNodes.ToList().TrueForAll(x => AddEdge(i, x));
-        }
-
-        /// <inheritdoc cref="IGraph.AddEdge(N, N)" />
-        public bool AddEdge(N prevNode, N nextNode)
-        {
-            Nodes.Add(prevNode.AddSuccessor(nextNode));
-            Nodes.Add(nextNode.AddPredecessor(prevNode));
-            var newEdge = new E
+            return prevNodes.ToList().TrueForAll(x => AddEdge(new E
             {
-                NextNode = nextNode,
-                PrevNode = prevNode,
-            };
-            return Edges.Add(newEdge);
+                NextNode = i,
+                PrevNode = x
+            }));
         }
 
-        /// <inheritdoc cref="IGraph.AddEdge(N, N, E)" />
-        public E AddEdge(N prevNode, N nextNode, E edge)
+        /// <inheritdoc cref="IGraph.AddEdge(E)" />
+        public bool AddEdge(E edge)
         {
+            edge.PrevNode.AddSuccessor(edge.NextNode);
+            edge.NextNode.AddPredecessor(edge.PrevNode);
             if (!Edges.Contains(edge))
             {
-                Nodes.Add(prevNode);
-                Nodes.Add(nextNode);
+                Nodes.Add(edge.PrevNode);
+                Nodes.Add(edge.NextNode);
                 Edges.Add(edge);
             }
-
-            return edge;
+            return true;
         }
 
         /// <inheritdoc cref="IGraph.AddNode(N)" />

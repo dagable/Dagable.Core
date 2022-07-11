@@ -1,6 +1,4 @@
-﻿using Dagable.Core.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dagable.Core.Tests
 {
@@ -22,7 +20,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Add_EdgeToGraph_ShouldBeASuccess()
         {
-            var result = testGraph.AddEdge(firstTestNode, secondTestNode);
+            var result = testGraph.AddEdge(new Edge<Node>(firstTestNode, secondTestNode));
             Assert.IsTrue(firstTestNode.SuccessorNodes.Count == 1);
             Assert.IsTrue(secondTestNode.PredecessorNodes.Count == 1);
             Assert.AreEqual(result, true);
@@ -32,8 +30,8 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Add_DuplicateEdgeToGraph_ShouldNotAddDuplicate()
         {
-            testGraph.AddEdge(firstTestNode, secondTestNode);
-            testGraph.AddEdge(firstTestNode, secondTestNode);
+            testGraph.AddEdge(new Edge<Node>(firstTestNode, secondTestNode));
+            testGraph.AddEdge(new Edge<Node>(firstTestNode, secondTestNode));
             Assert.AreEqual(firstTestNode.SuccessorNodes.Count, 1);
         }
 

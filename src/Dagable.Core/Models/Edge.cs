@@ -14,8 +14,6 @@ namespace Dagable.Core
         {
             PrevNode = prevNode;
             NextNode = nextNode;
-            prevNode.AddSuccessor(nextNode);
-            nextNode.AddPredecessor(prevNode);
         }
 
         public override bool Equals(object obj)

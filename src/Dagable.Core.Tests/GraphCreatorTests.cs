@@ -7,8 +7,6 @@ namespace Dagable.Core.Tests
     {
         private DagCreator.Standard creator;
 
-
-
         [TestMethod]
         public void Setup_GraphCreation_IsValid()
         {
@@ -34,10 +32,9 @@ namespace Dagable.Core.Tests
             var b = new Node(1);
             var c = new Node(2);
 
-
-            graph.AddEdge(a ,b);
-            graph.AddEdge(b, c);
-            graph.AddEdge(c, a);
+            graph.AddEdge(new Edge<Node>(a ,b));
+            graph.AddEdge(new Edge<Node>(b, c));
+            graph.AddEdge(new Edge<Node>(c, a));
 
             Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) == null);
         }
@@ -52,9 +49,9 @@ namespace Dagable.Core.Tests
             var c = new Node(2);
 
 
-            graph.AddEdge(a, b);
-            graph.AddEdge(b, c);
-            graph.AddEdge(a, c);
+            graph.AddEdge(new Edge<Node>(a, b));
+            graph.AddEdge(new Edge<Node>(b, c));
+            graph.AddEdge(new Edge<Node>(a, c));
 
             Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) != null);
         }

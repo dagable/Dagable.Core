@@ -1,4 +1,5 @@
 ﻿using Dagable.Core.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,6 @@ namespace Dagable.Core
                 MaxComm = random.Next(5, 10);
             }
 
-
             public CriticalPath(int layers, int nodeCount, double probability) : base(layers, nodeCount, probability)
             {
                 MinComp = random.Next(1,10);
@@ -40,7 +40,6 @@ namespace Dagable.Core
                 MinComm = minComm;
                 MaxComm = maxComm;
             }
-
 
             public new CriticalPath Generate()
             {
@@ -68,7 +67,7 @@ namespace Dagable.Core
                         var probability = random.NextDouble();
                         if (probability <= _propbability)
                         {
-                            dagGraph.AddEdge(n, nextLayernode);
+                            dagGraph.AddEdge(new CPathEdge(n, nextLayernode, random.Next(MinComm, MaxComm)));
                         }
                     }
                 }
@@ -83,15 +82,31 @@ namespace Dagable.Core
                         _layeredNodes.Add(layer, dagGraph.Nodes.Where(x => x.Layer == layer).ToList());
                     }
                     var prevLayerNode = _layeredNodes[layer][random.Next(_layeredNodes[layer].Count)];
-                    dagGraph.AddEdge(prevLayerNode, n);
-                }
-
-                foreach (var edge in dagGraph.Edges)
-                {
-                    edge.coomunicationTime = random.Next(MinComm, MaxComm);
+                    dagGraph.AddEdge(new CPathEdge(prevLayerNode, n, random.Next(MinComm, MaxComm)));
                 }
 
                 return this;
+            }
+
+            private void FindCriticalPath(CPathNode node, int totalTime, List<CPathEdge> currList)
+            {
+                if (node.Id == dagGraph.Nodes.Count)
+                {
+                    return;
+                }
+
+                int maxTime = totalTime + node.ComputationTime;
+                var nextNodes = new List<CPathEdge>();
+                nextNodes.AddRange(node.SuccessorNodes.ToList());
+            }
+
+            public new string AsJson()
+            {
+                return JsonConvert.SerializeObject(new
+                {
+                    Nodes = dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer }),
+                    Edges = dagGraph.Edges.Select((x, i) => new { id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id })
+                });
             }
         }
     }
