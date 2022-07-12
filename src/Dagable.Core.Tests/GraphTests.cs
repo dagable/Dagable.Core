@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Dagable.Core.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dagable.Core.Tests
 {
@@ -15,6 +16,17 @@ namespace Dagable.Core.Tests
             firstTestNode = new Node(0);
             secondTestNode = new Node(1);
             testGraph = new Graph<Node, Edge<Node>>();
+        }
+
+        [TestMethod]
+        public void Add_EdgeToGraphCriticalPath_ShouldBeASuccess()
+        {
+            var graph = new Graph<CPathNode, CPathEdge>();
+            var newNodeOne = new CPathNode();
+            var newNodeTwo = new CPathNode();
+            graph.AddEdge(new CPathEdge(newNodeOne, newNodeTwo, 9));
+            Assert.IsTrue(newNodeOne.SuccessorNodes.Count == 1);
+            Assert.IsTrue(newNodeTwo.PredecessorNodes.Count == 1);
         }
 
         [TestMethod]

@@ -5,9 +5,7 @@ namespace Dagable.Core.Models
 {
     public class CPathEdge : Edge<CPathNode>, IComparable<CPathEdge>, IEdge<CPathNode>
     {
-        private int CommTime { get; set; }
-        public new CPathNode NextNode { get; set; }
-        public new CPathNode PrevNode { get; set; }
+        public int CommTime { get; set; }
 
         public CPathEdge() : base() { }
 
@@ -20,6 +18,11 @@ namespace Dagable.Core.Models
         {
             var baseCompare = base.CompareTo(other);
             return baseCompare == 0 ? CommTime - other.CommTime : baseCompare;
+        }
+
+        public override int GetHashCode()
+        {
+            return Tuple.Create(PrevNode.Id, NextNode.Id, CommTime).GetHashCode();
         }
     }
 }

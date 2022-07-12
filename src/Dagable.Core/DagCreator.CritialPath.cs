@@ -14,6 +14,10 @@ namespace Dagable.Core
             private int MinComm { get; set; }
             private int MaxComm { get; set; }
 
+            private int CriticalPathTime { get; set; }
+
+            private List<CPathEdge> CriticalEdges { get; set; }
+
             internal new Graph<CPathNode, CPathEdge> dagGraph;
 
             protected new readonly Dictionary<int, List<CPathNode>> _layeredNodes = new Dictionary<int, List<CPathNode>>();
@@ -94,18 +98,33 @@ namespace Dagable.Core
                 {
                     return;
                 }
-
                 int maxTime = totalTime + node.ComputationTime;
-                var nextNodes = new List<CPathEdge>();
-                nextNodes.AddRange(node.SuccessorNodes.ToList());
+                List<CPathEdge> edgeList = new List<CPathEdge>();
+                edgeList.AddRange(dagGraph.Edges.Where(x => x.PrevNode == node));
+                for (int i = 0; i < edgeList.Count; i++)
+                {
+                    List<CPathEdge> edgeListCopy = new List<CPathEdge>();
+                    for (int j = 0; j < currList.Count; j++)
+                    {
+                        edgeListCopy.Add(currList[j]);
+                    }
+                    edgeListCopy.Add(edgeList[i]);
+                    FindCriticalPath(edgeList[i].NextNode, edgeList[i].CommTime + maxTime, edgeListCopy);
+                    if (maxTime > CriticalPathTime)
+                    {
+                        CriticalPathTime = maxTime;
+                        CriticalEdges = edgeListCopy;
+                    }
+                }
             }
 
             public new string AsJson()
             {
+                FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), 0, new List<CPathEdge>());
                 return JsonConvert.SerializeObject(new
                 {
-                    Nodes = dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer }),
-                    Edges = dagGraph.Edges.Select((x, i) => new { id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id })
+                    Nodes = dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.ComputationTime}", level = x.Layer }),
+                    Edges = dagGraph.Edges.Select((x, i) => new { label = $"{x.CommTime}", id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id, color = CriticalEdges.Any(e => e.PrevNode.Id == x.PrevNode.Id && e.NextNode.Id == x.NextNode.Id) ? "#f16f4e" : "black"})
                 });
             }
         }

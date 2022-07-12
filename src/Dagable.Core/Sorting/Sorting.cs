@@ -12,7 +12,7 @@ namespace Dagable.Core
         /// <param name="nodes">All of the nodes of the graph</param>
         /// <param name="edges">All of the edges of the graph</param>
         /// <returns>Sorted graph nodes in a topological order</returns>
-        public static List<Node> KhansTopologySort<E>(HashSet<Node> nodes, HashSet<E> edges) where E : IEdge<Node, Ede>
+        public static List<Node> KhansTopologySort<E>(HashSet<Node> nodes, HashSet<E> edges) where E : IEdge<Node>
         {
             // L ← Empty list that will contain the sorted elements
             var L = new List<Node>();

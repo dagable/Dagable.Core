@@ -10,7 +10,11 @@ namespace Dagable.Core.Models
         public new HashSet<CPathNode> SuccessorNodes { get; }
         public new HashSet<CPathNode> PredecessorNodes { get; }
 
-        public CPathNode() : base() { }
+        public CPathNode() : base() {
+
+            SuccessorNodes = new HashSet<CPathNode>();
+            PredecessorNodes = new HashSet<CPathNode>();
+        }
 
         public CPathNode(int id) : this()
         {
