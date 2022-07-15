@@ -53,7 +53,15 @@ namespace Dagable.Core.Tests
             creator.dagGraph.AddEdge(new CPathEdge(NodeEight, NodeTwo, -1));
             creator.dagGraph.AddEdge(new CPathEdge(NodeEight, NodeFour, 4));
             creator.dagGraph.AddEdge(new CPathEdge(NodeEight, NodeSix, -4));
-            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeOne), 7);
+
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeOne).Sum(x => x.CommTime), 7);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeTwo).Sum(x => x.CommTime), -1);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeThree).Sum(x => x.CommTime), -5);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeFour).Sum(x => x.CommTime), 4);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeFive).Sum(x => x.CommTime), 9);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeSix).Sum(x => x.CommTime), -4);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeSeven).Sum(x => x.CommTime), 9);
+            Assert.AreEqual(creator.FindCriticalPath(NodeEight, NodeEight).Sum(x => x.CommTime), 0);
         }
     }
 }

@@ -107,7 +107,7 @@ namespace Dagable.Core
             {
                 discoveredNodes[n.Id] = true;
 
-                foreach(CPathEdge edge in dagGraph.Edges)
+                foreach(CPathEdge edge in dagGraph.Edges.Where(x => x.PrevNode.Id == n.Id))
                 {
                     var u  = edge.NextNode;
                     if (!discoveredNodes[u.Id])
@@ -122,7 +122,7 @@ namespace Dagable.Core
                 return time;
             }
 
-            public int FindCriticalPath(CPathNode source, CPathNode destination)
+            public List<CPathEdge> FindCriticalPath(CPathNode source, CPathNode destination)
             {
                 int[] departure = new int[dagGraph.Nodes.Count];
                 departure = departure.Select(i => -1).ToArray();
@@ -141,7 +141,7 @@ namespace Dagable.Core
                 int[] cost = new int[dagGraph.Nodes.Count];
                 List<CPathEdge>[] edgeCost = new List<CPathEdge>[dagGraph.Nodes.Count];
                 edgeCost = edgeCost.Select(x => new List<CPathEdge>()).ToArray();
-                cost = cost.Select(i => Int32.MaxValue).ToArray();
+                cost = cost.Select(i => int.MaxValue).ToArray();
 
                 cost[source.Id] = 0;
 
@@ -154,19 +154,20 @@ namespace Dagable.Core
                     {
                         // edge `e` from `v` to `u` having weight `w`
                         int u = edge.NextNode.Id;
-                        int w = edge.CommTime * -1;        // make edge weight negative
+                        int w = edge.CommTime * -1; // make edge weight negative
 
                         // if the distance to destination `u` can be shortened by
                         // taking edge (v, u), then update cost to the new lower value
-                        if (cost[v] != Int32.MaxValue && cost[v] + w < cost[u])
+                        if (cost[v] != int.MaxValue && cost[v] + w < cost[u])
                         {
-                            edgeCost[v].Add(edge);
+                            edgeCost[u] = new List<CPathEdge> { edge };
+                            edgeCost[u].AddRange(edgeCost[v]);
                             cost[u] = cost[v] + w;
                         }
                     }
                 }
-
-                return cost[destination.Id] * -1;
+                var s = cost[destination.Id];
+                return edgeCost[destination.Id];
             }
 
             public new string AsJson()
