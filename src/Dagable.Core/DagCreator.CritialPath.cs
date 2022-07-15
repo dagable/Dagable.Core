@@ -1,5 +1,6 @@
 ﻿using Dagable.Core.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -89,38 +90,88 @@ namespace Dagable.Core
                     dagGraph.AddEdge(new CPathEdge(prevLayerNode, n, random.Next(MinComm, MaxComm)));
                 }
 
+                //add node on last layer to create critical path
+                dagGraph.AddNode(new CPathNode(dagGraph.Nodes.Count + 1, LayerCount + 1, 0));
+
+                var node = dagGraph.Nodes.First(x => x.Layer == LayerCount + 1);
+
+                var nodesOnLastLayer = dagGraph.Nodes.Where(x => x.Layer == LayerCount);
+                foreach(var n in nodesOnLastLayer)
+                {
+                    dagGraph.AddEdge(new CPathEdge(n, node,  0));
+                }
                 return this;
             }
 
-            private void FindCriticalPath(CPathNode node, int totalTime, List<CPathEdge> currList)
+            private int DFS(CPathNode n, bool[] discoveredNodes, int[] departure, int time)
             {
-                if (node.Id == dagGraph.Nodes.Count)
+                discoveredNodes[n.Id] = true;
+
+                foreach(CPathEdge edge in dagGraph.Edges)
                 {
-                    return;
-                }
-                int maxTime = totalTime + node.ComputationTime;
-                List<CPathEdge> edgeList = new List<CPathEdge>();
-                edgeList.AddRange(dagGraph.Edges.Where(x => x.PrevNode == node));
-                for (int i = 0; i < edgeList.Count; i++)
-                {
-                    List<CPathEdge> edgeListCopy = new List<CPathEdge>();
-                    for (int j = 0; j < currList.Count; j++)
+                    var u  = edge.NextNode;
+                    if (!discoveredNodes[u.Id])
                     {
-                        edgeListCopy.Add(currList[j]);
-                    }
-                    edgeListCopy.Add(edgeList[i]);
-                    FindCriticalPath(edgeList[i].NextNode, edgeList[i].CommTime + maxTime, edgeListCopy);
-                    if (maxTime > CriticalPathTime)
-                    {
-                        CriticalPathTime = maxTime;
-                        CriticalEdges = edgeListCopy;
+                        time = DFS(u, discoveredNodes, departure, time);
                     }
                 }
+
+                departure[time] = n.Id;
+                time++;
+
+                return time;
+            }
+
+            public int FindCriticalPath(CPathNode source, CPathNode destination)
+            {
+                int[] departure = new int[dagGraph.Nodes.Count];
+                departure = departure.Select(i => -1).ToArray();
+
+                bool[] discovered = new bool[dagGraph.Nodes.Count];
+                int time = 0;
+
+                for(int i = 0; i < dagGraph.Nodes.Count; i++)
+                {
+                    if (!discovered[i])
+                    {
+                        time = DFS(dagGraph.Nodes.ElementAt(i), discovered, departure, time);
+                    }
+                }
+
+                int[] cost = new int[dagGraph.Nodes.Count];
+                List<CPathEdge>[] edgeCost = new List<CPathEdge>[dagGraph.Nodes.Count];
+                edgeCost = edgeCost.Select(x => new List<CPathEdge>()).ToArray();
+                cost = cost.Select(i => Int32.MaxValue).ToArray();
+
+                cost[source.Id] = 0;
+
+                for (int i = dagGraph.Nodes.Count - 1; i >= 0; i--)
+                {
+                    // for each vertex in topological order,
+                    // relax the cost of its adjacent vertices
+                    int v = departure[i];
+                    foreach(var edge in dagGraph.Edges.Where(x => x.PrevNode.Id == v))
+                    {
+                        // edge `e` from `v` to `u` having weight `w`
+                        int u = edge.NextNode.Id;
+                        int w = edge.CommTime * -1;        // make edge weight negative
+
+                        // if the distance to destination `u` can be shortened by
+                        // taking edge (v, u), then update cost to the new lower value
+                        if (cost[v] != Int32.MaxValue && cost[v] + w < cost[u])
+                        {
+                            edgeCost[v].Add(edge);
+                            cost[u] = cost[v] + w;
+                        }
+                    }
+                }
+
+                return cost[destination.Id] * -1;
             }
 
             public new string AsJson()
             {
-                FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), 0, new List<CPathEdge>());
+                FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount + 1));
                 return JsonConvert.SerializeObject(new
                 {
                     Nodes = dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.ComputationTime}", level = x.Layer }),
