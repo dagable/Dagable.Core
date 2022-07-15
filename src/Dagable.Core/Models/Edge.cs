@@ -3,19 +3,17 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core
 {
-    public sealed class Edge : IComparable<Edge>
+    public class Edge<N> : IComparable<Edge<N>>, IEdge<N> where N : INode<N>, new ()
     {
-        public Node PrevNode { get; }
-        public Node NextNode { get; }
+        public N PrevNode { get; set; }
+        public N NextNode { get; set; }
 
         public Edge() { }
 
-        public Edge(Node prevNode, Node nextNode)
+        public Edge(N prevNode, N nextNode)
         {
             PrevNode = prevNode;
             NextNode = nextNode;
-            prevNode.AddSuccessor(nextNode);
-            nextNode.AddPredecessor(prevNode);
         }
 
         public override bool Equals(object obj)
@@ -25,7 +23,7 @@ namespace Dagable.Core
                 return false;
             }
 
-            var other = (Edge)obj;
+            var other = (Edge<N>)obj;
 
             if (NextNode.Equals(other.NextNode))
             {
@@ -37,7 +35,7 @@ namespace Dagable.Core
 
         public override int GetHashCode()
         {
-            return Tuple.Create(PrevNode.Id, NextNode.Id).GetHashCode();
+            return Tuple.Create(PrevNode.GetId(), NextNode.GetId()).GetHashCode();
         }
 
         /// <summary>
@@ -45,7 +43,7 @@ namespace Dagable.Core
         /// </summary>
         /// <param name="other">The second edge that we want to compare the first edge to</param>
         /// <returns>0 if both edges are the same, any other value if they are different.</returns>
-        public int CompareTo([AllowNull] Edge other)
+        public int CompareTo([AllowNull] Edge<N> other)
         {
             var prevNodeComparison = PrevNode.CompareTo(other.PrevNode);
             return prevNodeComparison == 0 ? prevNodeComparison : NextNode.CompareTo(other.NextNode);

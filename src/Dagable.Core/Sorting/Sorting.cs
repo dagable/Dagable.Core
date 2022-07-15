@@ -12,13 +12,13 @@ namespace Dagable.Core
         /// <param name="nodes">All of the nodes of the graph</param>
         /// <param name="edges">All of the edges of the graph</param>
         /// <returns>Sorted graph nodes in a topological order</returns>
-        public static List<Node> KhansTopologySort(HashSet<Node> nodes, HashSet<Edge> edges)
+        public static List<N> KhansTopologySort<N, E>(HashSet<N> nodes, HashSet<E> edges) where N : INode<N> where E : IEdge<N>, new()
         {
             // L ← Empty list that will contain the sorted elements
-            var L = new List<Node>();
+            var L = new List<N>();
 
             // S ← Set of all nodes with no incoming edge
-            var S = new HashSet<Node>(nodes.Where(n => edges.All(x => x.NextNode.Equals(n) == false)));
+            var S = new HashSet<N>(nodes.Where(n => edges.All(x => x.NextNode.Equals(n) == false)));
 
             // while S is not empty do
             while (S.Any())
