@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Dagable.Core
 {
-    public sealed partial class DagCreator
+    public partial class DAG
     {
         static readonly Random random = new Random();
 
@@ -14,9 +14,9 @@ namespace Dagable.Core
             protected int LayerCount { get; private set; }
             protected int NodeCount { get; private set; }
 
-            protected readonly double _propbability;
+            protected double _propbability;
 
-            internal Graph<Node, Edge<Node>> dagGraph;
+            public Graph<Node, Edge<Node>> dagGraph;
 
             protected readonly Dictionary<int, List<Node>> _layeredNodes = new Dictionary<int, List<Node>>();
 
@@ -27,23 +27,27 @@ namespace Dagable.Core
                 NodeCount = random.Next(10, 20);
             }
 
-            public Standard(int layers) : this()
+            internal Standard Setup(int layers)
             {
                 LayerCount = layers;
                 NodeCount = random.Next(layers, layers * 2);
+                return this;
             }
 
-            public Standard(int layers, int nodeCount) : this(layers)
+            internal Standard Setup(int layers, int nodeCount)
             {
+                Setup(layers);
                 if (nodeCount < layers)
                 {
                     LayerCount = nodeCount;
                 }
                 NodeCount = nodeCount;
+                return this;
             }
 
-            public Standard(int layers, int nodeCount, double probability) : this(layers, nodeCount)
+            Standard IDagCreation<Standard>.Setup(int layers, int nodeCount, double probability)
             {
+                Setup(layers, nodeCount);
                 if (probability > 1.0d)
                 {
                     probability = 1.0d;
@@ -53,6 +57,7 @@ namespace Dagable.Core
                     probability = 0;
                 }
                 _propbability = probability;
+                return this;
             }
 
             /// <summary>
@@ -109,7 +114,7 @@ namespace Dagable.Core
             /// Method used to get a list of Nodes topology sorted from the graph.
             /// </summary>
             /// <returns>A list of nodes that have been topology sorted using Khan's algorithm.</returns>
-            public List<Node> TopologySortedGraph()
+            internal List<Node> TopologySortedGraph()
             {
                 return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
             }

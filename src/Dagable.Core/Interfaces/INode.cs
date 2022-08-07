@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dagable.Core
+﻿namespace Dagable.Core
 {
     public interface INode<N> where N : INode<N>
     {

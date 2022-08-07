@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Dagable.Core
 {
-    internal class Graph<N, E> : IGraph<N,E> where N : INode<N> where E : IEdge<N>, new()
+    public class Graph<N, E> : IGraph<N,E> where N : INode<N> where E : IEdge<N>, new()
     {
         public HashSet<E> Edges { get; }
 
