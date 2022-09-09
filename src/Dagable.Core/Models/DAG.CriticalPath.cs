@@ -31,8 +31,9 @@ namespace Dagable.Core
                 return this;
             }
 
-            public CriticalPath Setup(int layers, int nodeCount, double probability)
+            public new CriticalPath Setup(int layers, int nodeCount, double probability)
             {
+                base.Setup(layers, nodeCount, probability);
                 MinComp = random.Next(1,10);
                 MaxComp = random.Next(10,20);
                 MinComm = random.Next(1,5);
@@ -42,7 +43,7 @@ namespace Dagable.Core
 
             public CriticalPath Setup(int minComp, int maxComp, int minComm, int maxComm, int layers, int nodeCount, double probability)
             {
-                Setup(layers, nodeCount, probability);
+                base.Setup(layers, nodeCount, probability);
                 MinComp = minComp;
                 MaxComp = maxComp;
                 MinComm = minComm;

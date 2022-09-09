@@ -45,7 +45,7 @@ namespace Dagable.Core
                 return this;
             }
 
-            Standard IDagCreation<Standard>.Setup(int layers, int nodeCount, double probability)
+            public Standard Setup(int layers, int nodeCount, double probability)
             {
                 Setup(layers, nodeCount);
                 if (probability > 1.0d)
