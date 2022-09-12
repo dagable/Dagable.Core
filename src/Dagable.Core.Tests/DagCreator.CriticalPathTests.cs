@@ -22,18 +22,13 @@ namespace Dagable.Core.Tests
         private CPathNode NodeEight = new CPathNode(7);
 
 
-        /*
-         *  new Edge(0, 6, 2), new Edge(1, 2, -4), new Edge(1, 4, 1),
-                new Edge(1, 6, 8), new Edge(3, 0, 3), new Edge(3, 4, 5),
-                new Edge(5, 1, 2), new Edge(7, 0, 6), new Edge(7, 1, -1),
-                new Edge(7, 3, 4), new Edge(7, 5, -4)
-        */
-
         [TestMethod]
         public void CriticalPathIsCorrect()
         {
-            DagCreator.CriticalPath creator = new DagCreator.CriticalPath();
-            creator.dagGraph = new Graph<CPathNode, CPathEdge>();
+            DAG.CriticalPath creator = new DAG.CriticalPath
+            {
+                dagGraph = new Graph<CPathNode, CPathEdge>()
+            };
             creator.dagGraph.AddNode(NodeOne);
             creator.dagGraph.AddNode(NodeTwo);
             creator.dagGraph.AddNode(NodeThree);

@@ -20,12 +20,17 @@ namespace Dagable.Core.Models
         {
             Id = id;
             Layer = 0;
+            ComputationTime = 0;
         }
 
-        public CPathNode(int id, int layer, int compTime) : this(id)
+        public CPathNode(int id, int compTime): this(id)
+        {
+            ComputationTime = compTime;
+        }
+
+        public CPathNode(int id, int layer, int compTime) : this(id, compTime)
         {
             Layer = layer;
-            ComputationTime = compTime;
         }
 
         public CPathNode AddSuccessor(CPathNode n)

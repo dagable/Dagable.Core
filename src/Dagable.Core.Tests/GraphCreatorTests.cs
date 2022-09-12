@@ -5,19 +5,19 @@ namespace Dagable.Core.Tests
     [TestClass]
     public class GraphCreatorTests
     {
-        private DagCreator.Standard creator;
+        private DAG.Standard creator;
 
         [TestMethod]
         public void Setup_GraphCreation_IsValid()
         {
-            creator = new DagCreator.Standard(10, 30);
+            creator = new DAG.Standard().Setup(10, 30);
             Assert.IsTrue(creator.Generate().TopologySortedGraph() != null);
         }
 
         [TestMethod]
         public void Setup_GraphCreationSecond_IsValidRandom()
         {
-            creator = new DagCreator.Standard(10, 10);
+            creator = new DAG.Standard().Setup(10, 10);
             var sorted = creator.Generate().TopologySortedGraph();
             Assert.IsTrue(sorted != null);
         }
