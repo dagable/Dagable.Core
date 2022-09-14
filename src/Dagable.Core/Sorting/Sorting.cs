@@ -18,7 +18,7 @@ namespace Dagable.Core
             var L = new List<N>();
 
             // S ← Set of all nodes with no incoming edge
-            var S = new HashSet<N>(nodes.Where(n => edges.All(x => x.NextNode.Equals(n) == false)));
+            var S = new HashSet<N>(nodes.Where(n => edges.All(x => x.NextNode.GetId().Equals(n.GetId()) == false)));
 
             // while S is not empty do
             while (S.Any())

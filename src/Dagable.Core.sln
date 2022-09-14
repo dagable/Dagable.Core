@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dagable.Core", "Dagable.Core/Dagable.Core.csproj", "{04EFDE7A-9CAD-4AA3-96E7-C455827BD270}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dagable.Core", "Dagable.Core\Dagable.Core.csproj", "{04EFDE7A-9CAD-4AA3-96E7-C455827BD270}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dagable.Core.Tests", "Dagable.Core.Tests\Dagable.Core.Tests.csproj", "{36790B97-6578-4511-BE3B-6CEDCCAAEA05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dagable.Core.Tests", "Dagable.Core.Tests\Dagable.Core.Tests.csproj", "{36790B97-6578-4511-BE3B-6CEDCCAAEA05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dagable.Core.Scheduling", "Dagable.Core.Scheduling\Dagable.Core.Scheduling.csproj", "{E7CBC18D-C6A6-4B5C-B343-FAEFF6B66347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dagable.Core.Scheduling.Tests", "Dagable.Core.Scheduling.Tests\Dagable.Core.Scheduling.Tests.csproj", "{99341468-9B49-4D90-B9F9-D91C7C4BC07E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{36790B97-6578-4511-BE3B-6CEDCCAAEA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36790B97-6578-4511-BE3B-6CEDCCAAEA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36790B97-6578-4511-BE3B-6CEDCCAAEA05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7CBC18D-C6A6-4B5C-B343-FAEFF6B66347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7CBC18D-C6A6-4B5C-B343-FAEFF6B66347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7CBC18D-C6A6-4B5C-B343-FAEFF6B66347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7CBC18D-C6A6-4B5C-B343-FAEFF6B66347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99341468-9B49-4D90-B9F9-D91C7C4BC07E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99341468-9B49-4D90-B9F9-D91C7C4BC07E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99341468-9B49-4D90-B9F9-D91C7C4BC07E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99341468-9B49-4D90-B9F9-D91C7C4BC07E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

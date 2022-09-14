@@ -18,6 +18,8 @@ namespace Dagable.Core
 
             protected new readonly Dictionary<int, List<CPathNode>> _layeredNodes = new Dictionary<int, List<CPathNode>>();
 
+            private List<CPathEdge> CriticalPathEdges;
+
             public CriticalPath() : base() {
                 MinComp = random.Next(1, 10);
                 MaxComp = random.Next(10, 20);
@@ -171,8 +173,20 @@ namespace Dagable.Core
                         }
                     }
                 }
-                var s = cost[destination.Id];
+                CriticalPathEdges = edgeCost[destination.Id];
                 return edgeCost[destination.Id];
+            }
+
+            public int DetermineCriticalPathLength()
+            {
+                if (CriticalPathEdges == null)
+                {
+                    FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
+                }
+
+                return 
+                    CriticalPathEdges.Select(x => x.NextNode).Union(CriticalPathEdges.Select(x => x.PrevNode)).Sum(x => x.ComputationTime) +
+                    CriticalPathEdges.Sum(x => x.CommTime);
             }
 
             public new string AsJson()
