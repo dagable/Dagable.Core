@@ -10,13 +10,13 @@ namespace Dagable.Core.Scheduling.Tests
     public class Tests
     {
         private readonly CPathNode NodeOne = new CPathNode(0, 0, 2);
-        private readonly CPathNode NodeTwo = new CPathNode(1, 3);
-        private readonly CPathNode NodeThree = new CPathNode(2, 3);
-        private readonly CPathNode NodeFour = new CPathNode(3, 4);
-        private readonly CPathNode NodeFive = new CPathNode(4, 5);
-        private readonly CPathNode NodeSix = new CPathNode(5, 4);
-        private readonly CPathNode NodeSeven = new CPathNode(6, 4);
-        private readonly CPathNode NodeEight = new CPathNode(7, 4);
+        private readonly CPathNode NodeTwo = new CPathNode(1,1, 3);
+        private readonly CPathNode NodeThree = new CPathNode(2,1, 3);
+        private readonly CPathNode NodeFour = new CPathNode(3,1, 4);
+        private readonly CPathNode NodeFive = new CPathNode(4,1, 5);
+        private readonly CPathNode NodeSix = new CPathNode(5,2, 4);
+        private readonly CPathNode NodeSeven = new CPathNode(6,2, 4);
+        private readonly CPathNode NodeEight = new CPathNode(7,2, 4);
         private readonly CPathNode NodeNine = new CPathNode(8, 3, 1);
 
         private List<CPathNode> TopologySortedNodes;
@@ -104,7 +104,7 @@ namespace Dagable.Core.Scheduling.Tests
         [TestMethod]
         public void DLSSchedule()
         {
-            var scheduler = new DSLScheduler(4, creator);
+            var scheduler = new DSLScheduler(3, creator);
 
             var results = scheduler.Schedule();
 #if DEBUG

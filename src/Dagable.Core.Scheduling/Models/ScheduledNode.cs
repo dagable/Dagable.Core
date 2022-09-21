@@ -15,4 +15,17 @@ namespace Dagable.Core.Scheduling
             EndAt = endAt;
         }
     }
+
+    public class UnscheduledNode
+    {
+        public int StaticBLevel { get; set; }
+
+        public CPathNode Node { get; set; }
+
+        public UnscheduledNode(CPathNode node, int staticBLevel)
+        {
+            Node = node;
+            StaticBLevel = staticBLevel;
+        }
+    }
 }
