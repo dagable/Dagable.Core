@@ -104,7 +104,7 @@ namespace Dagable.Core.Scheduling.Tests
         [TestMethod]
         public void DLSSchedule()
         {
-            var scheduler = new DSLScheduler(3, creator);
+            var scheduler = new DSLScheduler(4, creator);
 
             var results = scheduler.Schedule();
 #if DEBUG

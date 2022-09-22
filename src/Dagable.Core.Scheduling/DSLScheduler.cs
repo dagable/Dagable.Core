@@ -22,8 +22,8 @@ namespace Dagable.Core.Scheduling
             _processorCount = processorCount;
             _graph = graph;
             TopologySortedNodes = Sorting.KhansTopologySort(graph.dagGraph.Nodes, new HashSet<CPathEdge>(graph.dagGraph.Edges));
-            NodeBLevelMappings = CoreFunctions.ComputerStaticBLevel(TopologySortedNodes, graph.dagGraph.Edges);
             NodeTLevelMappings = CoreFunctions.ComputerTLevel(TopologySortedNodes, graph.dagGraph.Edges);
+            NodeBLevelMappings = CoreFunctions.ComputerStaticBLevel(TopologySortedNodes, graph.dagGraph.Edges);
             for (int i = 0; i < _processorCount; i++)
             {
                 processorMapping.Add(i, new List<ScheduledNode>());
@@ -43,29 +43,27 @@ namespace Dagable.Core.Scheduling
             while (readyNodePool.Any())
             {
                 processorNodeMappings = new Dictionary<UnscheduledNode, Tuple<int, int>>();
-                //foreach (var node in readyNodePool.OrderByDescending(x => x.StaticBLevel))
-                //{
-                    var node = readyNodePool.OrderByDescending(x => x.StaticBLevel).ThenByDescending(x => NodeBLevelMappings[x.Node] - NodeTLevelMappings[x.Node]).First();
-                    var processorDL = new int[_processorCount];
-                    Array.Fill(processorDL, int.MaxValue);
-                    var dl = NodeBLevelMappings[node.Node] - NodeTLevelMappings[node.Node];
-                    for (int i = 0; i < processorDL.Length; i++)
+
+                var node = readyNodePool.OrderByDescending(x => x.StaticBLevel).ThenByDescending(x => NodeBLevelMappings[x.Node] - NodeTLevelMappings[x.Node]).First();
+                var processorDL = new int[_processorCount];
+                Array.Fill(processorDL, int.MaxValue);
+                var dl = NodeBLevelMappings[node.Node] - NodeTLevelMappings[node.Node];
+                for (int i = 0; i < processorDL.Length; i++)
+                {
+                    processorDL[i] = processedNodes[i].Any() ? processedNodes[i].Max(x => x.EndAt) : (NodeBLevelMappings[node.Node] - dl);
+                    if (i != 0 && processorDL[i] >= processorDL[i - 1])
                     {
-                        processorDL[i] = processedNodes[i].Any() ? processedNodes[i].Max(x => x.EndAt) : (NodeBLevelMappings[node.Node] - dl);
-                        if(i != 0 && processorDL[i] >= processorDL[i - 1])
-                        {
-                            break;
-                        }
+                        break;
                     }
-                    processorNodeMappings.Add(node, Tuple.Create(processorDL.ToList().IndexOf(processorDL.Min()), processorDL.Min()));
-                //}
+                }
+                processorNodeMappings.Add(node, Tuple.Create(processorDL.ToList().IndexOf(processorDL.Min()), processorDL.Min()));
 
                 var minDl = processorNodeMappings.Min(x => x.Value.Item2);
                 var maxPairing = processorNodeMappings.First(x => x.Value.Item2 == minDl);
                 var startTime = (processedNodes[maxPairing.Value.Item1].Any() ? processedNodes[maxPairing.Value.Item1].Max(x => x.EndAt) : NodeTLevelMappings[maxPairing.Key.Node]);
                 processedNodes[maxPairing.Value.Item1].Add(new ScheduledNode(maxPairing.Key.Node, startTime, startTime + maxPairing.Key.Node.ComputationTime));
                 readyNodePool.Remove(maxPairing.Key);
-                foreach(var childnode in maxPairing.Key.Node.SuccessorNodes)
+                foreach (var childnode in maxPairing.Key.Node.SuccessorNodes)
                 {
                     if (!processedNodes.Values.SelectMany(x => x).Any(x => x.Node.Id == childnode.Id) && !readyNodePool.Any(x => x.Node.Id == childnode.Id))
                     {
