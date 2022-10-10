@@ -104,13 +104,17 @@ namespace Dagable.Core.Scheduling.Tests
         [TestMethod]
         public void DLSSchedule()
         {
-            var scheduler = new DSLScheduler(4, creator);
+            var scheduler = new DSLScheduler(2, creator);
 
             var results = scheduler.Schedule();
 #if DEBUG
             foreach (var res in results)
             {
-                Debug.WriteLine($"processor: {res.Key}, blevel: {res.Value.Select(x => x.Node.Id)}");
+                Debug.WriteLine($"processor: {res.Key + 1}");
+                foreach (var item in res.Value)
+                {
+                    Debug.WriteLine($"    item: {item.Node.Id + 1}, start: {item.StartAt} end: {item.EndAt}");
+                }
             }
 #endif
         }
