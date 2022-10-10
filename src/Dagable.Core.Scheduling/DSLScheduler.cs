@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using static Dagable.Core.DAG;
 
 namespace Dagable.Core.Scheduling
 {
-    public class DSLScheduler
+    public class DSLScheduler : IScheduler
     {
         private readonly int _processorCount;
         private readonly CriticalPath _graph;
         private readonly Dictionary<CPathNode, int> NodeBLevelMappings;
         private readonly Dictionary<CPathNode, int> NodeStaticBLevelMappings;
-        private Dictionary<CPathNode, int> NodeTLevelMappings;
+        private readonly Dictionary<CPathNode, int> NodeTLevelMappings;
         private readonly Dictionary<int, List<ScheduledNode>> processorMapping = new Dictionary<int, List<ScheduledNode>>();
 
 
@@ -43,13 +42,13 @@ namespace Dagable.Core.Scheduling
             while (readyNodePool.Any())
             {
                 var NodeProcessorPair = new List<Tuple<UnscheduledNode, int[], int[]>>();
-                foreach(var node in readyNodePool.OrderByDescending(x => NodeStaticBLevelMappings[x.Node] - NodeTLevelMappings[x.Node]))
+                foreach (var node in readyNodePool.OrderByDescending(x => NodeStaticBLevelMappings[x.Node] - NodeTLevelMappings[x.Node]))
                 {
                     var processorDL = new int[_processorCount];
                     var processorELS = new int[_processorCount];
                     for (int i = 0; i < _processorCount; i++)
                     {
-                        var earliestStartTime = processedNodes[i].Any() ?  processedNodes[i].Max(x => x.EndAt) > NodeTLevelMappings[node.Node]  ? processedNodes[i].Max(x => x.EndAt)  : NodeTLevelMappings[node.Node] : NodeTLevelMappings[node.Node];
+                        var earliestStartTime = processedNodes[i].Any() ? processedNodes[i].Max(x => x.EndAt) > NodeTLevelMappings[node.Node] ? processedNodes[i].Max(x => x.EndAt) : NodeTLevelMappings[node.Node] : NodeTLevelMappings[node.Node];
                         processorDL[i] = NodeStaticBLevelMappings[node.Node] - NodeTLevelMappings[node.Node];
                         processorELS[i] = earliestStartTime;
                     }
@@ -70,9 +69,7 @@ namespace Dagable.Core.Scheduling
                     }
                 }
             }
-            var a = processedNodes[0].Select(x => x.Node.Id);
-            var b = processedNodes[1].Select(x => x.Node.Id);
-            var c = processedNodes[2].Select(x => x.Node.Id);
+
             return processedNodes;
         }
     }

@@ -8,8 +8,9 @@ namespace Dagable.Core
         public static IServiceCollection AddDagableCoreServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IDagCriticalPathCreation, CriticalPath>()
-                .AddTransient<IDagCreation<Standard> , Standard >()
+                .AddTransient<IDagCreation<Standard>, Standard>()
                 .AddTransient<IDagCreationService, DagCreationService>();
+            
 
             return serviceCollection;
         }
