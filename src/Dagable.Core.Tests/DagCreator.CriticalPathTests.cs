@@ -1,10 +1,6 @@
 ﻿using Dagable.Core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dagable.Core.Tests
 {
@@ -25,7 +21,7 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void CriticalPathIsCorrect()
         {
-            DAG.CriticalPath creator = new DAG.CriticalPath
+            DAG.CriticalPathTaskGraph creator = new DAG.CriticalPathTaskGraph
             {
                 dagGraph = new Graph<CPathNode, CPathEdge>()
             };

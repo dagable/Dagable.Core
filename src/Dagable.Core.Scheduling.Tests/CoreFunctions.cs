@@ -21,15 +21,12 @@ namespace Dagable.Core.Scheduling.Tests
 
         private List<CPathNode> TopologySortedNodes;
         private HashSet<CPathEdge> graphEdges;
-        private DAG.CriticalPath creator;
+        private DAG.CriticalPathTaskGraph creator;
 
         [TestInitialize]
         public void Setup()
         {
-            creator = new DAG.CriticalPath
-            {
-                dagGraph = new Graph<CPathNode, CPathEdge>()
-            }.Setup(3);
+            creator = new DAG.CriticalPathTaskGraph(3);
             creator.dagGraph.AddNode(NodeOne);
             creator.dagGraph.AddNode(NodeTwo);
             creator.dagGraph.AddNode(NodeThree);

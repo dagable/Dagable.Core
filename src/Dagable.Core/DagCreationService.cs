@@ -4,41 +4,29 @@ namespace Dagable.Core
 {
     public sealed class DagCreationService : IDagCreationService
     {
-        private IDagCreation<Standard> Standard { get; }
-        private IDagCriticalPathCreation CriticalPath { get; }
-
-        public DagCreationService(IDagCreation<Standard> standard, IDagCriticalPathCreation criticalPath)
+        public IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph()
         {
-            Standard = standard;
-            CriticalPath = criticalPath;
+            return new StandardTaskGraph();
         }
 
-        public string GenerateGraphAsString(GraphType graphType)
+        public IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph(int layers, int nodes, double probability)
         {
-            if (graphType == GraphType.Standard)
-            {
-                return Standard.Generate().AsJson();
-            }
-            return CriticalPath.Generate().AsJson();
+            return new StandardTaskGraph(layers, nodes, probability);
         }
 
-        public string GenerateGraphAsString(GraphType graphType, int layers, int nodes, double probability)
+        public ICriticalPathTaskGraph GenerateCriticalPathTaskGraph()
         {
-            if (graphType == GraphType.Standard)
-            {
-                return Standard.Setup(layers, nodes, probability).Generate().AsJson();
-            }
-            return CriticalPath.Setup(layers, nodes, probability).Generate().AsJson();
+            return new CriticalPathTaskGraph();
         }
 
-        public string GenerateGraphAsString(GraphType graphType, int minComp, int maxComp, int minComm, int maxComm, int layers, int nodeCount, double probability)
+        public ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability)
         {
-            if (graphType == GraphType.Standard)
-            {
-                return Standard.Setup(layers, nodeCount, probability).Generate().AsJson();
-            }
-            return CriticalPath.Setup(minComp, maxComp, minComm, maxComm, layers, nodeCount, probability).Generate().AsJson();
+            return new CriticalPathTaskGraph(layers, nodes, probability);
         }
 
+        public ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability, int minComp, int maxComp, int minComm, int maxComm)
+        {
+            return new CriticalPathTaskGraph(minComp, maxComp, minComm, maxComm, layers, nodes, probability);
+        }
     }
 }

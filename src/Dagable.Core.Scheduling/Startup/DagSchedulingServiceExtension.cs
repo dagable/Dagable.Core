@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Dagable.Core.Scheduling.Startup
+namespace Dagable.Core.Scheduling
 {
     public static class DagSchedulingServiceExtension
     {

@@ -10,14 +10,14 @@ namespace Dagable.Core.Scheduling
     public class DSLScheduler : IScheduler
     {
         private readonly int _processorCount;
-        private readonly CriticalPath _graph;
+        private readonly CriticalPathTaskGraph _graph;
         private readonly Dictionary<CPathNode, int> NodeBLevelMappings;
         private readonly Dictionary<CPathNode, int> NodeStaticBLevelMappings;
         private readonly Dictionary<CPathNode, int> NodeTLevelMappings;
         private readonly Dictionary<int, List<ScheduledNode>> processorMapping = new Dictionary<int, List<ScheduledNode>>();
 
 
-        public DSLScheduler(int processorCount, CriticalPath graph)
+        public DSLScheduler(int processorCount, CriticalPathTaskGraph graph)
         {
             _processorCount = processorCount;
             _graph = graph;

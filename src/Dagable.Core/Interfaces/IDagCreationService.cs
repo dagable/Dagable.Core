@@ -1,9 +1,13 @@
-﻿namespace Dagable.Core
+﻿using static Dagable.Core.DAG;
+
+namespace Dagable.Core
 {
     public interface IDagCreationService
     {
-        string GenerateGraphAsString(GraphType graphType);
-        string GenerateGraphAsString(GraphType graphType, int layers, int nodes, double probability);
-        string GenerateGraphAsString(GraphType graphType, int minComp, int maxComp, int minComm, int maxComm, int layers, int nodeCount, double probability);
+        ICriticalPathTaskGraph GenerateCriticalPathTaskGraph();
+        ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability);
+        ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability, int minComp, int maxComp, int minComm, int maxComm);
+        IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph();
+        IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph(int layers, int nodes, double probability);
     }
 }

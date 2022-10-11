@@ -1,8 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>jwmxyz</Authors>
+    <Version>0.0.1-alpha-$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+    <PackageProjectUrl>https://jwm.xyz</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

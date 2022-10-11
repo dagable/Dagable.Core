@@ -66,7 +66,7 @@ namespace Dagable.Core.Scheduling
             return results;
         }
 
-        public static Dictionary<CPathNode, int> ComputeALAP(CriticalPath graph)
+        public static Dictionary<CPathNode, int> ComputeALAP(CriticalPathTaskGraph graph)
         {
             var topologyOrdered = Sorting.KhansTopologySort(graph.dagGraph.Nodes, new HashSet<CPathEdge>(graph.dagGraph.Edges));
             topologyOrdered.Reverse();
