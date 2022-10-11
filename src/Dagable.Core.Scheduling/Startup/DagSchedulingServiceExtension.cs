@@ -6,7 +6,7 @@ namespace Dagable.Core.Scheduling
     {
         public static IServiceCollection AddDagableSchedulingServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IScheduler, DSLScheduler>();
+            serviceCollection.AddTransient<ITaskGraphSchedulingService, TaskGraphSchedulingService>();
 
             return serviceCollection;
         }

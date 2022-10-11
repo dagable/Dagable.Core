@@ -20,6 +20,9 @@ namespace Dagable.Core
 
             private List<CPathEdge> CriticalPathEdges;
 
+            HashSet<CPathEdge> ICriticalPathTaskGraph.Edges => dagGraph.Edges;
+            HashSet<CPathNode> ICriticalPathTaskGraph.Nodes => dagGraph.Nodes;
+
             public CriticalPathTaskGraph() : base() {
                 MinComp = random.Next(1, 10);
                 MaxComp = random.Next(10, 20);
@@ -191,7 +194,7 @@ namespace Dagable.Core
                     Nodes = dagGraph.Nodes.Where(x => x.Layer != LayerCount).Select(x => new { id = x.Id, label = $"{x.ComputationTime}", level = x.Layer }),
                     Edges = dagGraph.Edges.Where(x => x.NextNode.Layer != LayerCount).Select((x, i) => new { label = $"{x.CommTime}", id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id, color = criticalPathEdges.Any(e => e.PrevNode.Id == x.PrevNode.Id && e.NextNode.Id == x.NextNode.Id) ? "#f16f4e" : "black"})
                 });
-            }
+            }                      
         }
     }
 }

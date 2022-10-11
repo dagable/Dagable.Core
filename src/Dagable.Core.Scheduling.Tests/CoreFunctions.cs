@@ -26,7 +26,10 @@ namespace Dagable.Core.Scheduling.Tests
         [TestInitialize]
         public void Setup()
         {
-            creator = new DAG.CriticalPathTaskGraph(3);
+            creator = new DAG.CriticalPathTaskGraph(3)
+            {
+                dagGraph = new Graph<CPathNode, CPathEdge>()
+            };
             creator.dagGraph.AddNode(NodeOne);
             creator.dagGraph.AddNode(NodeTwo);
             creator.dagGraph.AddNode(NodeThree);
@@ -101,7 +104,7 @@ namespace Dagable.Core.Scheduling.Tests
         [TestMethod]
         public void DLSSchedule()
         {
-            var scheduler = new DSLScheduler(3, creator);
+            var scheduler = new DLScheduler(3, creator);
 
             var results = scheduler.Schedule();
 #if DEBUG
@@ -110,7 +113,7 @@ namespace Dagable.Core.Scheduling.Tests
                 Debug.WriteLine($"processor: {res.Key + 1}");
                 foreach (var item in res.Value)
                 {
-                    Debug.WriteLine($"    item: {item.Node.Id + 1}, start: {item.StartAt} end: {item.EndAt}");
+                    Debug.WriteLine($"    item: {item.Id + 1}, start: {item.StartAt} end: {item.EndAt}");
                 }
             }
 #endif

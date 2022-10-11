@@ -2,7 +2,7 @@
 
 namespace Dagable.Core.Scheduling
 {
-    public interface IScheduler
+    internal interface IScheduler
     {
         Dictionary<int, List<ScheduledNode>> Schedule();
     }

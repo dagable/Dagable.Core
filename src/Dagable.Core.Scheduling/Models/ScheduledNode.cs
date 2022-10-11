@@ -6,13 +6,15 @@ namespace Dagable.Core.Scheduling
     {
         public int StartAt { get; set; }
         public int EndAt { get; set; }
-        public CPathNode Node { get; set; }
-
+        public int Id { get; set; }
+        public int ComputationTime { get; set; }
+        
         public ScheduledNode(CPathNode node, int startAt, int endAt)
         {
-            Node = node;
             StartAt = startAt;
             EndAt = endAt;
+            Id = node.Id;
+            ComputationTime = node.ComputationTime;
         }
     }
 
