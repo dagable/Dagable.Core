@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Dagable.Core.Scheduling.Models.DTO;
 
 namespace Dagable.Core.Scheduling
 {
     public interface ITaskGraphSchedulingService
     {
-        Dictionary<int, List<ScheduledNode>> DLSchedule(int processorCount, ICriticalPathTaskGraph graph);
+        IScheduledGraph DLSchedule(int processorCount, ICriticalPathTaskGraph graph);
     }
 }
