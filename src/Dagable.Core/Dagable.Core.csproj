@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>jwmxyz</Authors>
-    <Version>0.0.1-alpha-$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
+    <PackageId>Dagable.Core</PackageId>
     <PackageProjectUrl>https://jwm.xyz</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageDescription>This package adds support for Directed Acyclic Graph generation.</PackageDescription>
+    <RepositoryUrl>https://github.com/dagable/Dagable.Core</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 

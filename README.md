@@ -7,15 +7,25 @@
 
 [![Build Status](https://travis-ci.com/Dagable/Dagable.Core.svg?token=yE1jQHJ1CjkJeVSaVSDa&branch=main)](https://travis-ci.com/Dagable/Dagable.Core) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c09f67e58b27454abf4272366cc46bb2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dagable/Dagable.Core&amp;utm_campaign=Badge_Grade)
 
-## About
+## Dagable.Core
 
-Dagable is a collection of applications dedicated to the generation of Directed Acrylic Graphs.
+Dagable.Core is a nuget package that supports the creation and scheduling of Dynamic Acyclic Graphs.. 
 
-**Dagable.Core** is the core component library for Dagable. 
+- Installation
+- Usage
+- About
+  - Generation
+  - Scheduling
+  - Sorting
+- References
 
-Currently supports creating of DAG's using the layer-by-layer method.
+# Installation
 
 
+
+
+
+# About
 
 ### Scheduling
 
