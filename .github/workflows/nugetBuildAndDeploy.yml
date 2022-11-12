@@ -33,7 +33,7 @@ jobs:
         with:
           dotnet-version: 3.1.301
       - name: Restore
-        run: dotnet restore ./$PROJECT_NAME
+        run: dotnet restore ./src/$PROJECT_NAME
       - name: Build
         run: dotnet build -c Release --no-restore
       - name: Test
