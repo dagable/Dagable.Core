@@ -74,7 +74,7 @@ namespace Dagable.Core.Scheduling.Tests
         [TestMethod]
         public void StaticBLevelValuesAreCorrect()
         {
-            var results = CoreFunctions.ComputerStaticBLevel(TopologySortedNodes, graphEdges);
+            var results = CoreFunctions.ComputerStaticBLevel(TopologySortedNodes);
             #if DEBUG
             foreach (var res in results.OrderBy(x => x.Key.Id))
             {
@@ -107,6 +107,8 @@ namespace Dagable.Core.Scheduling.Tests
             var scheduler = new DLScheduler(3, creator);
 
             var results = scheduler.Schedule();
+
+            Assert.IsNotNull(results);
 #if DEBUG
             foreach (var res in results)
             {
@@ -116,6 +118,7 @@ namespace Dagable.Core.Scheduling.Tests
                     Debug.WriteLine($"    item: {item.Id + 1}, start: {item.StartAt} end: {item.EndAt}");
                 }
             }
+
 #endif
         }
 

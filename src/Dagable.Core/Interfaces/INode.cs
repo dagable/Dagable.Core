@@ -24,6 +24,6 @@
         /// </summary>
         N UpdateLayer(int layer);
 
-        int CompareTo<N>(N prevNode) where N : INode<N>, new();
+        int CompareTo<T>(N prevNode) where T : INode<N>, new();
     }
 }

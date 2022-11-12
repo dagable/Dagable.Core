@@ -4,12 +4,12 @@ namespace Dagable.Core
 {
     public sealed class DagCreationService : IDagCreationService
     {
-        public IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph()
+        public IStandardTaskGraph GenerateStandardTaskGraph()
         {
             return new StandardTaskGraph().Generate();
         }
 
-        public IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph(int layers, int nodes, double probability)
+        public IStandardTaskGraph GenerateStandardTaskGraph(int layers, int nodes, double probability)
         {
             return new StandardTaskGraph(layers, nodes, probability).Generate();
         }

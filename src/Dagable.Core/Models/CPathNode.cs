@@ -64,5 +64,14 @@ namespace Dagable.Core.Models
         {
             return Id;
         }
+
+        public int CompareTo<T>(CPathNode prevNode) where T : INode<CPathNode>, new()
+        {
+            if (base.CompareTo(prevNode) == 0)
+            {
+                return ComputationTime - prevNode.ComputationTime;
+            }
+            return 0;
+        }
     }
 }
