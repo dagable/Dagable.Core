@@ -28,9 +28,9 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.100
       - name: Restore Dagable.Core.Scheduling
@@ -55,7 +55,7 @@ jobs:
           dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
       - name: Upload Artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nupkg
           path: |
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: nupkg
       - name: Push to GitHub Feed
@@ -81,9 +81,9 @@ jobs:
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.100
       - name: Restore Dagable.Core.Scheduling
