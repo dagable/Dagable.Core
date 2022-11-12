@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="./Documentation/images/Asset 17.png" />
+  <img src="./Documentation/images/Logo.png" height="200px" />
 </p>
+
 
 ![Twitter Follow](https://img.shields.io/twitter/follow/jwmxyz?label=%40jwmxyz&style=social)
 
@@ -13,6 +14,13 @@ Dagable is a collection of applications dedicated to the generation of Directed 
 **Dagable.Core** is the core component library for Dagable. 
 
 Currently supports creating of DAG's using the layer-by-layer method.
+
+
+
+### Scheduling
+
+
+
 
 ### Sorting
 
