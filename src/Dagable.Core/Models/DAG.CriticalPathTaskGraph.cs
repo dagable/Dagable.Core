@@ -7,7 +7,7 @@ namespace Dagable.Core
 {
     public partial class DAG
     {
-        public class CriticalPath : Standard, IDagCriticalPathCreation
+        public class CriticalPathTaskGraph : StandardTaskGraph, ICriticalPathTaskGraph
         {
             private int MinComp { get; set; }
             private int MaxComp { get; set; }
@@ -18,40 +18,39 @@ namespace Dagable.Core
 
             protected new readonly Dictionary<int, List<CPathNode>> _layeredNodes = new Dictionary<int, List<CPathNode>>();
 
-            public CriticalPath() : base() {
+            private List<CPathEdge> CriticalPathEdges;
+
+            HashSet<CPathEdge> ICriticalPathTaskGraph.Edges => dagGraph.Edges;
+            HashSet<CPathNode> ICriticalPathTaskGraph.Nodes => dagGraph.Nodes;
+
+            public CriticalPathTaskGraph() : base() {
                 MinComp = random.Next(1, 10);
                 MaxComp = random.Next(10, 20);
                 MinComm = random.Next(1, 5);
                 MaxComm = random.Next(5, 10);
             }
 
-            public new CriticalPath Setup(int layers)
+            public CriticalPathTaskGraph(int layers) : base(layers)
             {
-                base.Setup(layers);
-                return this;
             }
 
-            public new CriticalPath Setup(int layers, int nodeCount, double probability)
+            public CriticalPathTaskGraph(int layers, int nodeCount, double probability) : base(layers, nodeCount, probability)
             {
-                base.Setup(layers, nodeCount, probability);
                 MinComp = random.Next(1,10);
                 MaxComp = random.Next(10,20);
                 MinComm = random.Next(1,5);
                 MaxComm = random.Next(5,10);
-                return this;
             }
 
-            public CriticalPath Setup(int minComp, int maxComp, int minComm, int maxComm, int layers, int nodeCount, double probability)
+            public CriticalPathTaskGraph(int minComp, int maxComp, int minComm, int maxComm, int layers, int nodeCount, double probability) : base(layers, nodeCount, probability)
             {
-                base.Setup(layers, nodeCount, probability);
                 MinComp = minComp;
                 MaxComp = maxComp;
                 MinComm = minComm;
                 MaxComm = maxComm;
-                return this;
             }
 
-            public new CriticalPath Generate()
+            public new CriticalPathTaskGraph Generate()
             {
                 dagGraph = new Graph<CPathNode, CPathEdge>(new CPathNode());
                 for (int i = 0; i < NodeCount; ++i)
@@ -171,11 +170,23 @@ namespace Dagable.Core
                         }
                     }
                 }
-                var s = cost[destination.Id];
+                CriticalPathEdges = edgeCost[destination.Id];
                 return edgeCost[destination.Id];
             }
 
-            public new string AsJson()
+            public int DetermineCriticalPathLength()
+            {
+                if (CriticalPathEdges == null)
+                {
+                    FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
+                }
+
+                return 
+                    CriticalPathEdges.Select(x => x.NextNode).Union(CriticalPathEdges.Select(x => x.PrevNode)).Sum(x => x.ComputationTime) +
+                    CriticalPathEdges.Sum(x => x.CommTime);
+            }
+
+            public override string ToString()
             {
                 var criticalPathEdges = FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
                 return JsonConvert.SerializeObject(new
@@ -183,9 +194,7 @@ namespace Dagable.Core
                     Nodes = dagGraph.Nodes.Where(x => x.Layer != LayerCount).Select(x => new { id = x.Id, label = $"{x.ComputationTime}", level = x.Layer }),
                     Edges = dagGraph.Edges.Where(x => x.NextNode.Layer != LayerCount).Select((x, i) => new { label = $"{x.CommTime}", id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id, color = criticalPathEdges.Any(e => e.PrevNode.Id == x.PrevNode.Id && e.NextNode.Id == x.NextNode.Id) ? "#f16f4e" : "black"})
                 });
-            }
-
-           
+            }                      
         }
     }
 }

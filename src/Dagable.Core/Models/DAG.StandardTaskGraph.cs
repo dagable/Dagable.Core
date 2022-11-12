@@ -9,7 +9,7 @@ namespace Dagable.Core
     {
         static readonly Random random = new Random();
 
-        public class Standard : IDagCreation<Standard>
+        public class StandardTaskGraph : IStandardTaskGraph<StandardTaskGraph>
         {
             protected int LayerCount { get; private set; }
             protected int NodeCount { get; private set; }
@@ -20,34 +20,30 @@ namespace Dagable.Core
 
             protected readonly Dictionary<int, List<Node>> _layeredNodes = new Dictionary<int, List<Node>>();
 
-            public Standard()
+            public StandardTaskGraph()
             {
                 _propbability = 0.5d;
                 LayerCount = 10;
                 NodeCount = random.Next(10, 20);
             }
 
-            internal Standard Setup(int layers)
+            public StandardTaskGraph(int layers)
             {
                 LayerCount = layers;
                 NodeCount = random.Next(layers, layers * 2);
-                return this;
             }
 
-            internal Standard Setup(int layers, int nodeCount)
+            public StandardTaskGraph(int layers, int nodeCount) : this (layers)
             {
-                Setup(layers);
                 if (nodeCount < layers)
                 {
                     LayerCount = nodeCount;
                 }
                 NodeCount = nodeCount;
-                return this;
             }
 
-            public Standard Setup(int layers, int nodeCount, double probability)
+            public StandardTaskGraph(int layers, int nodeCount, double probability) : this(layers, nodeCount)
             {
-                Setup(layers, nodeCount);
                 if (probability > 1.0d)
                 {
                     probability = 1.0d;
@@ -57,15 +53,14 @@ namespace Dagable.Core
                     probability = 0;
                 }
                 _propbability = probability;
-                return this;
             }
 
             /// <summary>
             /// Method used to randomly generate a random DAG using the settings;
             /// </summary>
             /// <returns></returns>
-            public Standard Generate()
-            { 
+            public StandardTaskGraph Generate()
+            {
                 dagGraph = new Graph<Node, Edge<Node>>(new Node());
                 for (int i = 0; i < NodeCount; ++i)
                 {
@@ -119,7 +114,7 @@ namespace Dagable.Core
                 return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
             }
 
-            public string AsJson()
+            public override string ToString()
             {
                 return JsonConvert.SerializeObject(new
                 {
