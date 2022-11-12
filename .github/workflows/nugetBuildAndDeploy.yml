@@ -1,5 +1,9 @@
 name: .NET Core
 on:
+  push:
+    branches:
+      - main
+      - development
   pull_request:
   release:
     types:
