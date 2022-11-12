@@ -5,7 +5,7 @@ using static Dagable.Core.DAG;
 
 namespace Dagable.Core.Scheduling
 {
-    public class CoreFunctions
+    public static class CoreFunctions
     {
        public static Dictionary<CPathNode, int> ComputerTLevel(List<CPathNode> toplogySortedNodes, HashSet<CPathEdge> edges)
        {
@@ -46,7 +46,7 @@ namespace Dagable.Core.Scheduling
             return results;
         }
 
-        public static Dictionary<CPathNode, int> ComputerStaticBLevel(List<CPathNode> topologySortedNodes, HashSet<CPathEdge> edges)
+        public static Dictionary<CPathNode, int> ComputerStaticBLevel(List<CPathNode> topologySortedNodes)
         {
             topologySortedNodes.Reverse();
             var results = topologySortedNodes.ToDictionary(x => x, x => default(int));

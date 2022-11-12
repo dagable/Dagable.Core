@@ -8,7 +8,7 @@ namespace Dagable.Core
         public static IServiceCollection AddDagableCoreServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<ICriticalPathTaskGraph, CriticalPathTaskGraph>()
-                .AddTransient<IStandardTaskGraph<StandardTaskGraph>, StandardTaskGraph>()
+                .AddTransient<IStandardTaskGraph, StandardTaskGraph>()
                 .AddTransient<IDagCreationService, DagCreationService>();
             
 

@@ -1,10 +1,9 @@
 ﻿using Dagable.Core.Models;
 using System.Collections.Generic;
-using static Dagable.Core.DAG;
 
 namespace Dagable.Core
 {
-    public interface ICriticalPathTaskGraph : IStandardTaskGraph<CriticalPathTaskGraph>
+    public interface ICriticalPathTaskGraph : IStandardTaskGraph
     {
         HashSet<CPathNode> Nodes { get; }
         HashSet<CPathEdge> Edges { get; }

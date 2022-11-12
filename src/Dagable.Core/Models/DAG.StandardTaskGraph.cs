@@ -9,7 +9,7 @@ namespace Dagable.Core
     {
         static readonly Random random = new Random();
 
-        public class StandardTaskGraph : IStandardTaskGraph<StandardTaskGraph>
+        public class StandardTaskGraph : IStandardTaskGraph
         {
             protected int LayerCount { get; private set; }
             protected int NodeCount { get; private set; }

@@ -7,7 +7,7 @@ namespace Dagable.Core
         ICriticalPathTaskGraph GenerateCriticalPathTaskGraph();
         ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability);
         ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability, int minComp, int maxComp, int minComm, int maxComm);
-        IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph();
-        IStandardTaskGraph<StandardTaskGraph> GenerateStandardTaskGraph(int layers, int nodes, double probability);
+        IStandardTaskGraph GenerateStandardTaskGraph();
+        IStandardTaskGraph GenerateStandardTaskGraph(int layers, int nodes, double probability);
     }
 }

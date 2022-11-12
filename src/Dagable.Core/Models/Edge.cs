@@ -45,8 +45,8 @@ namespace Dagable.Core
         /// <returns>0 if both edges are the same, any other value if they are different.</returns>
         public int CompareTo([AllowNull] Edge<N> other)
         {
-            var prevNodeComparison = PrevNode.CompareTo(other.PrevNode);
-            return prevNodeComparison == 0 ? prevNodeComparison : NextNode.CompareTo(other.NextNode);
+            var prevNodeComparison = PrevNode.CompareTo<N>(other.PrevNode);
+            return prevNodeComparison == 0 ? prevNodeComparison : NextNode.CompareTo<N>(other.NextNode);
         }
     }
 }
