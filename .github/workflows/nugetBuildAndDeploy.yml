@@ -11,7 +11,8 @@ env:
   # Disable sending usage data to Microsoft
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   # Project name to pack and publish
-  PROJECT_NAME: Dagable.Core
+  PROJECT_NAME_CORE: Dagable.Core
+  PROJECT_NAME_CORE_SCHEDULING: Dagable.Core.Scheduling
   # GitHub Packages Feed settings
   GITHUB_FEED: https://nuget.pkg.github.com/jwmxyz/
   GITHUB_USER: jwmxyz
@@ -31,22 +32,27 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: | 
-            3.1.x
-            5.0.x
-      - name: Restore
-        run: dotnet restore ./src/$PROJECT_NAME
-      - name: Build
-        run: dotnet build -c Release ./src/$PROJECT_NAME --no-restore
-      - name: Test
-        run: dotnet test -c Release ./src/$PROJECT_NAME
+          dotnet-version: 7.0.100
+      - name: Restore Dagable.Core.Scheduling
+        run: dotnet restore ./src/$PROJECT_NAME_CORE_SCHEDULING
+      - name: Build Dagable.Core.Scheduling
+        run: dotnet build -c Release ./src/$PROJECT_NAME_CORE_SCHEDULING --no-restore
+      - name: Test Dagable.Core.Scheduling
+        run: dotnet test -c Release ./src/$PROJECT_NAME_CORE_SCHEDULING
+      - name: Restore Dagable.Core
+        run: dotnet restore ./src/$PROJECT_NAME_CORE
+      - name: Build Dagable.Core
+        run: dotnet build -c Release ./src/$PROJECT_NAME_CORE --no-restore
+      - name: Test Dagable.Core
+        run: dotnet test -c Release ./src/$PROJECT_NAME_CORE
       - name: Pack
         if: matrix.os == 'ubuntu-latest'
         run: |
           latestTag=$(git describe --tags --abbrev=0 2>/dev/null || echo 0.0.1)
           runId=$GITHUB_RUN_ID
           packageVersion="${latestTag//v}-build.${runId}"
-          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME/$PROJECT_NAME.*proj
+          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME_CORE/$PROJECT_NAME_CORE.*proj
+          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
       - name: Upload Artifact
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
@@ -55,7 +61,7 @@ jobs:
           path: ./src/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
   prerelease:
     needs: build
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
@@ -77,9 +83,19 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: | 
-            3.1.x
-            5.0.x
+          dotnet-version: 7.0.100
+      - name: Restore Dagable.Core.Scheduling
+        run: dotnet restore ./src/$PROJECT_NAME_CORE_SCHEDULING
+      - name: Build Dagable.Core.Scheduling
+        run: dotnet build -c Release ./src/$PROJECT_NAME_CORE_SCHEDULING --no-restore
+      - name: Test Dagable.Core.Scheduling
+        run: dotnet test -c Release ./src/$PROJECT_NAME_CORE_SCHEDULING 
+      - name: Restore Dagable.Core
+        run: dotnet restore ./src/$PROJECT_NAME_CORE
+      - name: Build Dagable.Core
+        run: dotnet build -c Release ./src/$PROJECT_NAME_CORE --no-restore
+      - name: Test Dagable.Core
+        run: dotnet test -c Release ./src/$PROJECT_NAME_CORE
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
@@ -87,7 +103,8 @@ jobs:
           echo Version: $VERSION
           VERSION="${VERSION//v}"
           echo Clean Version: $VERSION
-          dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME/$PROJECT_NAME.*proj
+          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE/$PROJECT_NAME_CORE.*proj
+          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
       - name: Push to GitHub Feed
         run: |
           for f in ./nupkg/*.nupkg
