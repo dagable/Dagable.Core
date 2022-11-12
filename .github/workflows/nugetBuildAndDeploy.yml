@@ -1,6 +1,5 @@
 name: .NET Core
 on:
-  push:
   pull_request:
   release:
     types:
@@ -14,7 +13,7 @@ env:
   PROJECT_NAME_CORE: Dagable.Core
   PROJECT_NAME_CORE_SCHEDULING: Dagable.Core.Scheduling
   # GitHub Packages Feed settings
-  GITHUB_FEED: https://nuget.pkg.github.com/jwmxyz/
+  GITHUB_FEED: https://nuget.pkg.github.com/dagable/
   GITHUB_USER: jwmxyz
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Official NuGet Feed settings
