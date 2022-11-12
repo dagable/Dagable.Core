@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./Documentation/images/Logo.png" height="200px" />
+  <img src="https://raw.githubusercontent.com/dagable/Dagable.Core/main/Documentation/images/logo.png" height="200px" />
 </p>
 
 
