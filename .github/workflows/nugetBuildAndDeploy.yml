@@ -72,7 +72,7 @@ jobs:
           name: nupkg
       - name: Push to GitHub Feed
         run: |
-          for f in ./nupkg/*/bin/release/*.nupkg
+          for f in ./nupkg/*/bin/Release/*.nupkg
           do
             curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
           done
@@ -109,7 +109,7 @@ jobs:
           dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
       - name: Push to GitHub Feed
         run: |
-          for f in ./nupkg/*/bin/release/*.nupkg
+          for f in ./nupkg/*/bin/Release/*.nupkg
           do
             curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
           done
