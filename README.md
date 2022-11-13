@@ -5,7 +5,8 @@
 
 ![Twitter Follow](https://img.shields.io/twitter/follow/jwmxyz?label=%40jwmxyz&style=social)
 
-[![Build Status](https://travis-ci.com/Dagable/Dagable.Core.svg?token=yE1jQHJ1CjkJeVSaVSDa&branch=main)](https://travis-ci.com/Dagable/Dagable.Core) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c09f67e58b27454abf4272366cc46bb2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dagable/Dagable.Core&amp;utm_campaign=Badge_Grade)
+![dagableCoreworkflow](https://github.com/dagable/Dagable.Core/actions/workflows/nugetBuildAndDeploy.yml/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c09f67e58b27454abf4272366cc46bb2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dagable/Dagable.Core&amp;utm_campaign=Badge_Grade)
 
 ## Dagable.Core
 
