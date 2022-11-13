@@ -1,7 +1,10 @@
 language: csharp
 mono: none
-dotnet: 5.0
+dotnet: 6.0
 script:
   - dotnet restore src/Dagable.Core
   - dotnet restore src/Dagable.Core.Tests
+  - dotnet restore src/Dagable.Core.Scheduling
+  - dotnet restore src/Dagable.Core.Scheduling.Tests
   - dotnet test src/Dagable.Core.Tests
+  - dotnet test src/Dagable.Core.Scheduling.Tests

@@ -20,7 +20,7 @@ namespace Dagable.Core.Scheduling
             _processorCount = processorCount;
             _graph = graph;
             NodeTLevelMappings = CoreFunctions.ComputerTLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)), new HashSet<CPathEdge>(graph.Edges));
-            NodeStaticBLevelMappings = CoreFunctions.ComputerStaticBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)), new HashSet<CPathEdge>(graph.Edges));
+            NodeStaticBLevelMappings = CoreFunctions.ComputerStaticBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)));
             NodeBLevelMappings = CoreFunctions.ComputerBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)), new HashSet<CPathEdge>(graph.Edges));
             for (int i = 0; i < _processorCount; i++)
             {

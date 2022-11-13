@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Authors>jwmxyz</Authors>
     <PackageId>Dagable.Core</PackageId>
     <PackageProjectUrl>https://jwm.xyz</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageDescription>This package adds support for Directed Acyclic Graph generation.</PackageDescription>
     <RepositoryUrl>https://github.com/dagable/Dagable.Core</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

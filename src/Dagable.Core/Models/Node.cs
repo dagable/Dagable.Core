@@ -86,5 +86,10 @@ namespace Dagable.Core
         {
             return CompareTo(prevNode);
         }
+
+        public int CompareTo<T>(Node prevNode) where T : INode<Node>, new()
+        {
+            return CompareTo(prevNode);
+        }
     }
 }

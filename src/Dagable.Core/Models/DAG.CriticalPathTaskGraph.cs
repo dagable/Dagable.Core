@@ -23,7 +23,7 @@ namespace Dagable.Core
             HashSet<CPathEdge> ICriticalPathTaskGraph.Edges => dagGraph.Edges;
             HashSet<CPathNode> ICriticalPathTaskGraph.Nodes => dagGraph.Nodes;
 
-            public CriticalPathTaskGraph() : base() {
+            public CriticalPathTaskGraph() {
                 MinComp = random.Next(1, 10);
                 MaxComp = random.Next(10, 20);
                 MinComm = random.Next(1, 5);
