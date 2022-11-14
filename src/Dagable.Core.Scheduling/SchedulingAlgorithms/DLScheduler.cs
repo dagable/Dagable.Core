@@ -28,6 +28,7 @@ namespace Dagable.Core.Scheduling
             }
         }
 
+        /// <inheritdoc cref="IScheduler.Schedule"/>
         public Dictionary<int, List<ScheduledNode>> Schedule()
         {
             var readyNodePool = new HashSet<UnscheduledNode> { new UnscheduledNode(_graph.Nodes.First(x => x.Layer == 0), NodeBLevelMappings[_graph.Nodes.First(x => x.Layer == 0)]) };

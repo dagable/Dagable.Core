@@ -20,6 +20,7 @@ namespace Dagable.Core.Models
             return baseCompare == 0 ? CommTime - other.CommTime : baseCompare;
         }
 
+        /// <inheritdoc cref="IEdge{N}.Equals(object)"/>
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -36,7 +37,6 @@ namespace Dagable.Core.Models
 
             return false;
         }
-
 
         /// <inheritdoc cref="IEdge{N}.GetHashCode"/>
         public override int GetHashCode()

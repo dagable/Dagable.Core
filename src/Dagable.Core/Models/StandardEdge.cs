@@ -16,6 +16,7 @@ namespace Dagable.Core
             NextNode = nextNode;
         }
 
+        /// <inheritdoc cref="IEdge{N}.Equals(object)"/>
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -33,6 +34,7 @@ namespace Dagable.Core
             return false;
         }
 
+        /// <inheritdoc cref="IEdge{N}.GetHashCode"/>
         public override int GetHashCode()
         {
             return Tuple.Create(PrevNode.GetId(), NextNode.GetId()).GetHashCode();

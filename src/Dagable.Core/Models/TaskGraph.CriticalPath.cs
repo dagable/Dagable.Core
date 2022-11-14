@@ -16,7 +16,7 @@ namespace Dagable.Core
 
             public new Graph<CriticalPathNode, CriticalPathEdge> dagGraph;
 
-            protected new readonly Dictionary<int, List<CriticalPathNode>> _layeredNodes = new Dictionary<int, List<CriticalPathNode>>();
+            protected new readonly Dictionary<int, List<CriticalPathNode>> _layeredNodes = new();
 
             private List<CriticalPathEdge> CriticalPathEdges;
 
@@ -107,7 +107,17 @@ namespace Dagable.Core
                 return this;
             }
 
-            private int DFS(CriticalPathNode n, bool[] discoveredNodes, int[] departure, int time)
+            /// <summary>
+            /// Depth first search.
+            /// 
+            /// Based on https://en.wikipedia.org/wiki/Depth-first_search#Pseudocode
+            /// </summary>
+            /// <param name="n">The current Node to find the adjacent nodes for processing</param>
+            /// <param name="discoveredNodes">An array of node length with true / false values indiciting if they have been visited.</param>
+            /// <param name="departure">0..n of when a node is departed from</param>
+            /// <param name="step">The current step of the search.</param>
+            /// <returns></returns>
+            private int DepthFirstSearch(CriticalPathNode n, bool[] discoveredNodes, int[] departure, int step)
             {
                 discoveredNodes[n.Id] = true;
 
@@ -116,16 +126,22 @@ namespace Dagable.Core
                     var u  = edge.NextNode;
                     if (!discoveredNodes[u.Id])
                     {
-                        time = DFS(u, discoveredNodes, departure, time);
+                        step = DepthFirstSearch(u, discoveredNodes, departure, step);
                     }
                 }
 
-                departure[time] = n.Id;
-                time++;
+                departure[step] = n.Id;
+                step++;
 
-                return time;
+                return step;
             }
 
+            /// <summary>
+            /// Method used to determine the critical path of a graph.
+            /// </summary>
+            /// <param name="source">The source node to start the search from</param>
+            /// <param name="destination">The destination node</param>
+            /// <returns>A List of edges that are on the critical path</returns>
             internal List<CriticalPathEdge> FindCriticalPath(CriticalPathNode source, CriticalPathNode destination)
             {
                 int[] departure = new int[dagGraph.Nodes.Count];
@@ -138,7 +154,7 @@ namespace Dagable.Core
                 {
                     if (!discovered[i])
                     {
-                        time = DFS(dagGraph.Nodes.ElementAt(i), discovered, departure, time);
+                        time = DepthFirstSearch(dagGraph.Nodes.ElementAt(i), discovered, departure, time);
                     }
                 }
 
@@ -174,6 +190,10 @@ namespace Dagable.Core
                 return edgeCost[destination.Id];
             }
 
+            /// <summary>
+            /// Method used to determine the length of the critical Path
+            /// </summary>
+            /// <returns>The length of the critical path for a task graph.</returns>
             public int DetermineCriticalPathLength()
             {
                 if (CriticalPathEdges == null)
@@ -186,6 +206,11 @@ namespace Dagable.Core
                     CriticalPathEdges.Sum(x => x.CommTime);
             }
 
+            /// <summary>
+            /// Returns a JSON object of a string represnetation of this graph.
+            /// TODO: replace with a better version of JSON representation
+            /// </summary>
+            /// <returns>A string representation of this graph as JSON</returns>
             public override string ToString()
             {
                 var criticalPathEdges = FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));

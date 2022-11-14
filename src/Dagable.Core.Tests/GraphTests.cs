@@ -1,5 +1,4 @@
-﻿using Dagable.Core.Exceptions;
-using Dagable.Core.Models;
+﻿using Dagable.Core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -87,7 +86,6 @@ namespace Dagable.Core.Tests
             Assert.AreEqual(2, testCriticalPathGraph.Nodes.Count);
         }
 
-        // this is failing
         [TestMethod]
         public void Given_AnEmptyCriticalTaskGraph_When_EdgesAreAdded_OnlyDistinctEdgesAreAdded()
         {

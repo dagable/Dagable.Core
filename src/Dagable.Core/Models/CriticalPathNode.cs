@@ -33,43 +33,48 @@ namespace Dagable.Core.Models
             Layer = layer;
         }
 
+        /// <inheritdoc cref="INode{N}.AddSuccessor(N)"/>
         public CriticalPathNode AddSuccessor(CriticalPathNode n)
         {
             SuccessorNodes.Add(n);
             return this;
         }
 
+        /// <inheritdoc cref="INode{N}.AddPredecessor(N)"/>
         public CriticalPathNode AddPredecessor(CriticalPathNode n)
         {
             PredecessorNodes.Add(n);
             return this;
         }
 
+        /// <inheritdoc cref="INode{N}.UpdateLayer(int)"/>
         public new CriticalPathNode UpdateLayer(int layer)
         {
             Layer = layer;
             return this;
         }
 
-        public int CompareTo([AllowNull] CriticalPathNode other)
-        {
-            if(base.CompareTo(other) == 0)
-            {
-                return ComputationTime - other.ComputationTime;
-            }
-            return 0;
-        }
-
+        /// <inheritdoc cref="INode{N}.GetId"/>
         int INode<CriticalPathNode>.GetId()
         {
             return Id;
         }
 
+        /// <inheritdoc cref="INode{N}.CompareTo{T}(N)"/>
         public int CompareTo<T>(CriticalPathNode prevNode) where T : INode<CriticalPathNode>, new()
         {
             if (base.CompareTo(prevNode) == 0)
             {
                 return ComputationTime - prevNode.ComputationTime;
+            }
+            return 0;
+        }
+
+        public int CompareTo([AllowNull] CriticalPathNode other)
+        {
+            if (base.CompareTo(other) == 0)
+            {
+                return ComputationTime - other.ComputationTime;
             }
             return 0;
         }

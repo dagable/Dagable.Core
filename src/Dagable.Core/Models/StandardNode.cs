@@ -19,6 +19,17 @@ namespace Dagable.Core
             PredecessorNodes = new HashSet<StandardNode>();
         }
 
+        public StandardNode(int id) : this()
+        {
+            Id = id;
+            Layer = 0;
+        }
+
+        public StandardNode(int id, int layer) : this(id)
+        {
+            Layer = layer;
+        }
+
         /// <inheritdoc cref="INode.AddSuccessor(StandardNode)"/>
         public StandardNode AddSuccessor(StandardNode n)
         {
@@ -40,17 +51,6 @@ namespace Dagable.Core
             return this;
         }
 
-        public StandardNode(int id) : this()
-        {
-            Id = id;
-            Layer = 0;
-        }
-
-        public StandardNode(int id, int layer) : this(id)
-        {
-            Layer = layer;
-        }
-
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -67,21 +67,19 @@ namespace Dagable.Core
             return Id;
         }
 
-        /// <summary>
-        /// Method used to compare two nodes.
-        /// </summary>
-        /// <param name="other">The second node to compare the first node to</param>
-        /// <returns>zero is the same, all other values mean the node is different.</returns>
+        /// <inheritdoc cref="INode{N}.CompareTo{T}(N)"/>
         public int CompareTo([AllowNull] StandardNode other)
         {
             return Id - other.Id;
         }
 
+        /// <inheritdoc cref="INode{N}.GetId"/>
         int INode<StandardNode>.GetId()
         {
             return Id;
         }
 
+        /// <inheritdoc cref="INode{N}.CompareTo{T}(N)"/>
         public int CompareTo<N>(N prevNode) where N : INode<N>, new()
         {
             return CompareTo(prevNode);
