@@ -91,18 +91,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.100
-      - name: Restore Dagable.Core.Scheduling
-        run: dotnet restore ./src/$PROJECT_NAME_CORE_SCHEDULING
-      - name: Build Dagable.Core.Scheduling
-        run: dotnet build -c Release ./src/$PROJECT_NAME_CORE_SCHEDULING --no-restore
-      - name: Test Dagable.Core.Scheduling
-        run: dotnet test -c Release ./src/$PROJECT_NAME_CORE_SCHEDULING 
-      - name: Restore Dagable.Core
-        run: dotnet restore ./src/$PROJECT_NAME_CORE
-      - name: Build Dagable.Core
-        run: dotnet build -c Release ./src/$PROJECT_NAME_CORE --no-restore
-      - name: Test Dagable.Core
-        run: dotnet test -c Release ./src/$PROJECT_NAME_CORE
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
@@ -112,6 +100,8 @@ jobs:
           echo Clean Version: $VERSION
           dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE/$PROJECT_NAME_CORE.*proj
           dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
+      - name: Display structure
+        run: ls -R
       - name: Push to GitHub Feed
         run: |
           for f in ./*/bin/Release/*.nupkg
@@ -119,4 +109,4 @@ jobs:
             curl -vX PUT -u "$GITHUB_USER:$GITHUB_TOKEN" -F package=@$f $GITHUB_FEED
           done
       - name: Push to NuGet Feed
-        run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
+        run: dotnet nuget push ./*/bin/Release/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
