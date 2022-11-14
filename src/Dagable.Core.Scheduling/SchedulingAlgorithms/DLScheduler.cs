@@ -10,18 +10,18 @@ namespace Dagable.Core.Scheduling
     {
         private readonly int _processorCount;
         private readonly ICriticalPathTaskGraph _graph;
-        private readonly Dictionary<CPathNode, int> NodeBLevelMappings;
-        private readonly Dictionary<CPathNode, int> NodeStaticBLevelMappings;
-        private readonly Dictionary<CPathNode, int> NodeTLevelMappings;
+        private readonly Dictionary<CriticalPathNode, int> NodeBLevelMappings;
+        private readonly Dictionary<CriticalPathNode, int> NodeStaticBLevelMappings;
+        private readonly Dictionary<CriticalPathNode, int> NodeTLevelMappings;
         private readonly Dictionary<int, List<ScheduledNode>> processorMapping = new Dictionary<int, List<ScheduledNode>>();
 
         public DLScheduler(int processorCount, ICriticalPathTaskGraph graph)
         {
             _processorCount = processorCount;
             _graph = graph;
-            NodeTLevelMappings = CoreFunctions.ComputerTLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)), new HashSet<CPathEdge>(graph.Edges));
-            NodeStaticBLevelMappings = CoreFunctions.ComputerStaticBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)));
-            NodeBLevelMappings = CoreFunctions.ComputerBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CPathEdge>(graph.Edges)), new HashSet<CPathEdge>(graph.Edges));
+            NodeTLevelMappings = CoreFunctions.ComputerTLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CriticalPathEdge>(graph.Edges)), new HashSet<CriticalPathEdge>(graph.Edges));
+            NodeStaticBLevelMappings = CoreFunctions.ComputerStaticBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CriticalPathEdge>(graph.Edges)));
+            NodeBLevelMappings = CoreFunctions.ComputerBLevel(Sorting.KhansTopologySort(graph.Nodes, new HashSet<CriticalPathEdge>(graph.Edges)), new HashSet<CriticalPathEdge>(graph.Edges));
             for (int i = 0; i < _processorCount; i++)
             {
                 processorMapping.Add(i, new List<ScheduledNode>());

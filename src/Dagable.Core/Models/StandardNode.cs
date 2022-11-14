@@ -4,49 +4,49 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core
 {
-    public class Node : INode<Node>
+    public class StandardNode : INode<StandardNode>
     {
         public int Id { get; protected set; }
-        public HashSet<Node> SuccessorNodes { get; }
-        public HashSet<Node> PredecessorNodes { get; }
+        public HashSet<StandardNode> SuccessorNodes { get; }
+        public HashSet<StandardNode> PredecessorNodes { get; }
         public int Layer { get; set; }
 
-        public Node()
+        public StandardNode()
         {
             Id = default;
             Layer = default;
-            SuccessorNodes = new HashSet<Node>();
-            PredecessorNodes = new HashSet<Node>();
+            SuccessorNodes = new HashSet<StandardNode>();
+            PredecessorNodes = new HashSet<StandardNode>();
         }
 
-        /// <inheritdoc cref="INode.AddSuccessor(Node)"/>
-        public Node AddSuccessor(Node n)
+        /// <inheritdoc cref="INode.AddSuccessor(StandardNode)"/>
+        public StandardNode AddSuccessor(StandardNode n)
         {
             SuccessorNodes.Add(n);
             return this;
         }
 
         /// <inheritdoc cref="INode.UpdateLayer(int)"/>
-        public Node UpdateLayer(int layer)
+        public StandardNode UpdateLayer(int layer)
         {
             Layer = layer;
             return this;
         }
 
-        /// <inheritdoc cref="INode.AddPredecessor(Node)"/>
-        public Node AddPredecessor(Node n)
+        /// <inheritdoc cref="INode.AddPredecessor(StandardNode)"/>
+        public StandardNode AddPredecessor(StandardNode n)
         {
             PredecessorNodes.Add(n);
             return this;
         }
 
-        public Node(int id) : this()
+        public StandardNode(int id) : this()
         {
             Id = id;
             Layer = 0;
         }
 
-        public Node(int id, int layer) : this(id)
+        public StandardNode(int id, int layer) : this(id)
         {
             Layer = layer;
         }
@@ -58,7 +58,7 @@ namespace Dagable.Core
                 return false;
             }
 
-            Node n = (Node)obj;
+            StandardNode n = (StandardNode)obj;
             return Id.Equals(n.Id);
         }
 
@@ -72,12 +72,12 @@ namespace Dagable.Core
         /// </summary>
         /// <param name="other">The second node to compare the first node to</param>
         /// <returns>zero is the same, all other values mean the node is different.</returns>
-        public int CompareTo([AllowNull] Node other)
+        public int CompareTo([AllowNull] StandardNode other)
         {
             return Id - other.Id;
         }
 
-        int INode<Node>.GetId()
+        int INode<StandardNode>.GetId()
         {
             return Id;
         }
@@ -87,7 +87,7 @@ namespace Dagable.Core
             return CompareTo(prevNode);
         }
 
-        public int CompareTo<T>(Node prevNode) where T : INode<Node>, new()
+        public int CompareTo<T>(StandardNode prevNode) where T : INode<StandardNode>, new()
         {
             return CompareTo(prevNode);
         }

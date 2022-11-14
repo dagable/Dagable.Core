@@ -4,54 +4,54 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core.Models
 {
-    public class CPathNode : Node, INode<CPathNode>, IComparable<CPathNode>
+    public class CriticalPathNode : StandardNode, INode<CriticalPathNode>, IComparable<CriticalPathNode>
     {
         public int ComputationTime { get; set; }
-        public new HashSet<CPathNode> SuccessorNodes { get; }
-        public new HashSet<CPathNode> PredecessorNodes { get; }
+        public new HashSet<CriticalPathNode> SuccessorNodes { get; }
+        public new HashSet<CriticalPathNode> PredecessorNodes { get; }
 
-        public CPathNode() : base() {
+        public CriticalPathNode() : base() {
 
-            SuccessorNodes = new HashSet<CPathNode>();
-            PredecessorNodes = new HashSet<CPathNode>();
+            SuccessorNodes = new HashSet<CriticalPathNode>();
+            PredecessorNodes = new HashSet<CriticalPathNode>();
         }
 
-        public CPathNode(int id) : this()
+        public CriticalPathNode(int id) : this()
         {
             Id = id;
             Layer = 0;
             ComputationTime = 0;
         }
 
-        public CPathNode(int id, int compTime): this(id)
+        public CriticalPathNode(int id, int compTime): this(id)
         {
             ComputationTime = compTime;
         }
 
-        public CPathNode(int id, int layer, int compTime) : this(id, compTime)
+        public CriticalPathNode(int id, int layer, int compTime) : this(id, compTime)
         {
             Layer = layer;
         }
 
-        public CPathNode AddSuccessor(CPathNode n)
+        public CriticalPathNode AddSuccessor(CriticalPathNode n)
         {
             SuccessorNodes.Add(n);
             return this;
         }
 
-        public CPathNode AddPredecessor(CPathNode n)
+        public CriticalPathNode AddPredecessor(CriticalPathNode n)
         {
             PredecessorNodes.Add(n);
             return this;
         }
 
-        public new CPathNode UpdateLayer(int layer)
+        public new CriticalPathNode UpdateLayer(int layer)
         {
             Layer = layer;
             return this;
         }
 
-        public int CompareTo([AllowNull] CPathNode other)
+        public int CompareTo([AllowNull] CriticalPathNode other)
         {
             if(base.CompareTo(other) == 0)
             {
@@ -60,12 +60,12 @@ namespace Dagable.Core.Models
             return 0;
         }
 
-        int INode<CPathNode>.GetId()
+        int INode<CriticalPathNode>.GetId()
         {
             return Id;
         }
 
-        public int CompareTo<T>(CPathNode prevNode) where T : INode<CPathNode>, new()
+        public int CompareTo<T>(CriticalPathNode prevNode) where T : INode<CriticalPathNode>, new()
         {
             if (base.CompareTo(prevNode) == 0)
             {

@@ -5,20 +5,20 @@ namespace Dagable.Core.Tests
     [TestClass]
     public class GraphCreatorTests
     {
-        private DAG.StandardTaskGraph creator;
+        private TaskGraph.Standard standardTaskGraph;
 
         [TestMethod]
         public void Setup_GraphCreation_IsValid()
         {
-            creator = new DAG.StandardTaskGraph(10, 30);
-            Assert.IsTrue(creator.Generate().TopologySortedGraph() != null);
+            standardTaskGraph = new TaskGraph.Standard(10, 30);
+            Assert.IsTrue(standardTaskGraph.Generate().TopologySortedGraph() != null);
         }
 
         [TestMethod]
         public void Setup_GraphCreationSecond_IsValidRandom()
         {
-            creator = new DAG.StandardTaskGraph(10, 10);
-            var sorted = creator.Generate().TopologySortedGraph();
+            standardTaskGraph = new TaskGraph.Standard(10, 10);
+            var sorted = standardTaskGraph.Generate().TopologySortedGraph();
             Assert.IsTrue(sorted != null);
         }
 
@@ -26,15 +26,15 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreated_IsInvalid()
         {
-            var graph = new Graph<Node, Edge<Node>>();
+            var graph = new Graph<StandardNode, StandardEdge<StandardNode>>();
 
-            var a = new Node(0);
-            var b = new Node(1);
-            var c = new Node(2);
+            var a = new StandardNode(0);
+            var b = new StandardNode(1);
+            var c = new StandardNode(2);
 
-            graph.AddEdge(new Edge<Node>(a ,b));
-            graph.AddEdge(new Edge<Node>(b, c));
-            graph.AddEdge(new Edge<Node>(c, a));
+            graph.AddEdge(new StandardEdge<StandardNode>(a ,b));
+            graph.AddEdge(new StandardEdge<StandardNode>(b, c));
+            graph.AddEdge(new StandardEdge<StandardNode>(c, a));
 
             Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) == null);
         }
@@ -42,16 +42,16 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_GraphCreated_IsValid()
         {
-            var graph = new Graph<Node, Edge<Node>>();
+            var graph = new Graph<StandardNode, StandardEdge<StandardNode>>();
 
-            var a = new Node(0);
-            var b = new Node(1);
-            var c = new Node(2);
+            var a = new StandardNode(0);
+            var b = new StandardNode(1);
+            var c = new StandardNode(2);
 
 
-            graph.AddEdge(new Edge<Node>(a, b));
-            graph.AddEdge(new Edge<Node>(b, c));
-            graph.AddEdge(new Edge<Node>(a, c));
+            graph.AddEdge(new StandardEdge<StandardNode>(a, b));
+            graph.AddEdge(new StandardEdge<StandardNode>(b, c));
+            graph.AddEdge(new StandardEdge<StandardNode>(a, c));
 
             Assert.IsTrue(Sorting.KhansTopologySort(graph.Nodes, graph.Edges) != null);
         }
@@ -59,10 +59,10 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Setup_RootNodeConnectedToAllFirstLayer_IsValid()
         {
-            var graph = new Graph<Node, Edge<Node>>();
-            var a = new Node(0, 0);
-            var b = new Node(1, 1);
-            var c = new Node(2, 1);
+            var graph = new Graph<StandardNode, StandardEdge<StandardNode>>();
+            var a = new StandardNode(0, 0);
+            var b = new StandardNode(1, 1);
+            var c = new StandardNode(2, 1);
 
             graph.AddEdges(a, new[] { b, c });
 

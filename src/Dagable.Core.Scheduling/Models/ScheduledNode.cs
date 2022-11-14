@@ -9,7 +9,7 @@ namespace Dagable.Core.Scheduling
         public int Id { get; set; }
         public int ComputationTime { get; set; }
         
-        public ScheduledNode(CPathNode node, int startAt, int endAt)
+        public ScheduledNode(CriticalPathNode node, int startAt, int endAt)
         {
             StartAt = startAt;
             EndAt = endAt;
@@ -22,9 +22,9 @@ namespace Dagable.Core.Scheduling
     {
         public int StaticBLevel { get; set; }
 
-        public CPathNode Node { get; set; }
+        public CriticalPathNode Node { get; set; }
 
-        public UnscheduledNode(CPathNode node, int staticBLevel)
+        public UnscheduledNode(CriticalPathNode node, int staticBLevel)
         {
             Node = node;
             StaticBLevel = staticBLevel;
