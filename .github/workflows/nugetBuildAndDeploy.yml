@@ -91,6 +91,8 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.100
+      - name: Display structure
+        run: ls -R
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
