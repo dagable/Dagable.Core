@@ -56,7 +56,7 @@ jobs:
           packageVersion="${latestTag//v}-build.${runId}"
           dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME_CORE/$PROJECT_NAME_CORE.*proj
           dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$packageVersion src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
-      - name: Upload Artifact
+      - name: Upload Build Artifacts
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
@@ -73,8 +73,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: nupkg
-      - name: Display structure of downloaded files
-        run: ls -R
       - name: Push to GitHub Feed
         run: |
           for f in ./*/bin/Release/*.nupkg
@@ -91,8 +89,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.100
-      - name: Display structure
-        run: ls -R
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
@@ -100,8 +96,8 @@ jobs:
           echo Version: $VERSION
           VERSION="${VERSION//v}"
           echo Clean Version: $VERSION
-          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE/$PROJECT_NAME_CORE.*proj
-          dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
+          dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE/$PROJECT_NAME_CORE.*proj
+          dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/$PROJECT_NAME_CORE_SCHEDULING/$PROJECT_NAME_CORE_SCHEDULING.*proj
       - name: Display structure
         run: ls -R
       - name: Push to GitHub Feed
