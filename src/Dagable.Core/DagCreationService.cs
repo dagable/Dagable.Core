@@ -1,32 +1,38 @@
-﻿using static Dagable.Core.DAG;
+﻿using static Dagable.Core.TaskGraph;
 
 namespace Dagable.Core
 {
     public sealed class DagCreationService : IDagCreationService
     {
+
+        /// <inheritdoc cref="IDagCreationService.GenerateStandardTaskGraph"/>
         public IStandardTaskGraph GenerateStandardTaskGraph()
         {
-            return new StandardTaskGraph().Generate();
+            return new Standard().Generate();
         }
 
+        /// <inheritdoc cref="IDagCreationService.GenerateStandardTaskGraph(int, int, double)"/>
         public IStandardTaskGraph GenerateStandardTaskGraph(int layers, int nodes, double probability)
         {
-            return new StandardTaskGraph(layers, nodes, probability).Generate();
+            return new Standard(layers, nodes, probability).Generate();
         }
 
+        /// <inheritdoc cref="IDagCreationService.GenerateCriticalPathTaskGraph"/>
         public ICriticalPathTaskGraph GenerateCriticalPathTaskGraph()
         {
-            return new CriticalPathTaskGraph().Generate();
+            return new CriticalPath().Generate();
         }
 
+        /// <inheritdoc cref="IDagCreationService.GenerateCriticalPathTaskGraph(int, int, double)"/>
         public ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability)
         {
-            return new CriticalPathTaskGraph(layers, nodes, probability).Generate();
+            return new CriticalPath(layers, nodes, probability).Generate();
         }
 
+        /// <inheritdoc cref="IDagCreationService.GenerateCriticalPathTaskGraph(int, int, double, int, int, int, int)"/>
         public ICriticalPathTaskGraph GenerateCriticalPathTaskGraph(int layers, int nodes, double probability, int minComp, int maxComp, int minComm, int maxComm)
         {
-            return new CriticalPathTaskGraph(minComp, maxComp, minComm, maxComm, layers, nodes, probability).Generate();
+            return new CriticalPath(minComp, maxComp, minComm, maxComm, layers, nodes, probability).Generate();
         }
     }
 }

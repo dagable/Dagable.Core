@@ -3,19 +3,20 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dagable.Core
 {
-    public class Edge<N> : IComparable<Edge<N>>, IEdge<N> where N : INode<N>, new ()
+    public class StandardEdge<N> : IComparable<StandardEdge<N>>, IEdge<N> where N : INode<N>, new ()
     {
         public N PrevNode { get; set; }
         public N NextNode { get; set; }
 
-        public Edge() { }
+        public StandardEdge() { }
 
-        public Edge(N prevNode, N nextNode)
+        public StandardEdge(N prevNode, N nextNode)
         {
             PrevNode = prevNode;
             NextNode = nextNode;
         }
 
+        /// <inheritdoc cref="IEdge{N}.Equals(object)"/>
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -23,7 +24,7 @@ namespace Dagable.Core
                 return false;
             }
 
-            var other = (Edge<N>)obj;
+            var other = (StandardEdge<N>)obj;
 
             if (NextNode.Equals(other.NextNode))
             {
@@ -33,17 +34,14 @@ namespace Dagable.Core
             return false;
         }
 
+        /// <inheritdoc cref="IEdge{N}.GetHashCode"/>
         public override int GetHashCode()
         {
             return Tuple.Create(PrevNode.GetId(), NextNode.GetId()).GetHashCode();
         }
 
-        /// <summary>
-        /// Method used to determine if one edge is the same as another edge
-        /// </summary>
-        /// <param name="other">The second edge that we want to compare the first edge to</param>
-        /// <returns>0 if both edges are the same, any other value if they are different.</returns>
-        public int CompareTo([AllowNull] Edge<N> other)
+        /// <inheritdoc cref="IEdge{N}.C"/>
+        public int CompareTo([AllowNull] StandardEdge<N> other)
         {
             var prevNodeComparison = PrevNode.CompareTo<N>(other.PrevNode);
             return prevNodeComparison == 0 ? prevNodeComparison : NextNode.CompareTo<N>(other.NextNode);

@@ -5,35 +5,35 @@ using System.Linq;
 
 namespace Dagable.Core
 {
-    public partial class DAG
+    public partial class TaskGraph
     {
         static readonly Random random = new Random();
 
-        public class StandardTaskGraph : IStandardTaskGraph
+        public class Standard : IStandardTaskGraph
         {
             protected int LayerCount { get; private set; }
             protected int NodeCount { get; private set; }
 
             protected double _propbability;
 
-            public Graph<Node, Edge<Node>> dagGraph;
+            public Graph<StandardNode, StandardEdge<StandardNode>> dagGraph;
 
-            protected readonly Dictionary<int, List<Node>> _layeredNodes = new Dictionary<int, List<Node>>();
+            protected readonly Dictionary<int, List<StandardNode>> _layeredNodes = new Dictionary<int, List<StandardNode>>();
 
-            public StandardTaskGraph()
+            public Standard()
             {
                 _propbability = 0.5d;
                 LayerCount = 10;
                 NodeCount = random.Next(10, 20);
             }
 
-            public StandardTaskGraph(int layers)
+            public Standard(int layers)
             {
                 LayerCount = layers;
                 NodeCount = random.Next(layers, layers * 2);
             }
 
-            public StandardTaskGraph(int layers, int nodeCount) : this (layers)
+            public Standard(int layers, int nodeCount) : this (layers)
             {
                 if (nodeCount < layers)
                 {
@@ -42,7 +42,7 @@ namespace Dagable.Core
                 NodeCount = nodeCount;
             }
 
-            public StandardTaskGraph(int layers, int nodeCount, double probability) : this(layers, nodeCount)
+            public Standard(int layers, int nodeCount, double probability) : this(layers, nodeCount)
             {
                 if (probability > 1.0d)
                 {
@@ -56,20 +56,20 @@ namespace Dagable.Core
             }
 
             /// <summary>
-            /// Method used to randomly generate a random DAG using the settings;
+            /// Method used to randomly generate a random TaskGraph using the settings;
             /// </summary>
             /// <returns></returns>
-            public StandardTaskGraph Generate()
+            public Standard Generate()
             {
-                dagGraph = new Graph<Node, Edge<Node>>(new Node());
+                dagGraph = new Graph<StandardNode, StandardEdge<StandardNode>>(new StandardNode());
                 for (int i = 0; i < NodeCount; ++i)
                 {
                     var layer = random.Next(1, LayerCount);
                     if (i < LayerCount) layer = i;
-                    dagGraph.AddNode(new Node(i, layer));
+                    dagGraph.AddNode(new StandardNode(i, layer));
                 }
 
-                foreach (Node n in dagGraph.Nodes)
+                foreach (StandardNode n in dagGraph.Nodes)
                 {
                     var nextLayerNodes = dagGraph.Nodes.Where(x => x.Layer == n.Layer + 1);
                     // If the current node is root node, then we want to connect to all those in the first layer.
@@ -79,19 +79,19 @@ namespace Dagable.Core
                         continue;
                     }
 
-                    foreach (Node nextLayernode in nextLayerNodes)
+                    foreach (StandardNode nextLayernode in nextLayerNodes)
                     {
                         var probability = random.NextDouble();
                         if (probability <= _propbability)
                         {
-                            dagGraph.AddEdge(new Edge<Node>(n, nextLayernode));
+                            dagGraph.AddEdge(new StandardEdge<StandardNode>(n, nextLayernode));
                         }
                     }
                 }
 
                 var nodesWithNoPredecessorNodes = dagGraph.Nodes.Where(x => !x.PredecessorNodes.Any() && x.Layer != 0);
 
-                foreach (Node n in nodesWithNoPredecessorNodes.ToList())
+                foreach (StandardNode n in nodesWithNoPredecessorNodes.ToList())
                 {
                     var layer = n.Layer - 1;
                     if (!_layeredNodes.ContainsKey(layer))
@@ -99,7 +99,7 @@ namespace Dagable.Core
                         _layeredNodes.Add(layer, dagGraph.Nodes.Where(x => x.Layer == layer).ToList());
                     }
                     var prevLayerNode = _layeredNodes[layer][random.Next(_layeredNodes[layer].Count)];
-                    dagGraph.AddEdge(new Edge<Node>(prevLayerNode, n));
+                    dagGraph.AddEdge(new StandardEdge<StandardNode>(prevLayerNode, n));
                 }
 
                 return this;
@@ -109,11 +109,16 @@ namespace Dagable.Core
             /// Method used to get a list of Nodes topology sorted from the graph.
             /// </summary>
             /// <returns>A list of nodes that have been topology sorted using Khan's algorithm.</returns>
-            internal List<Node> TopologySortedGraph()
+            internal List<StandardNode> TopologySortedGraph()
             {
                 return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
             }
 
+            /// <summary>
+            /// Returns a JSON object of a string represnetation of this graph.
+            /// TODO: replace with a better version of JSON representation
+            /// </summary>
+            /// <returns>A string representation of this graph as JSON</returns>
             public override string ToString()
             {
                 return JsonConvert.SerializeObject(new

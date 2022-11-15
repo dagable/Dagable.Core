@@ -9,26 +9,26 @@ namespace Dagable.Core.Scheduling.Tests
     [TestClass]
     public class Tests
     {
-        private readonly CPathNode NodeOne = new CPathNode(0, 0, 2);
-        private readonly CPathNode NodeTwo = new CPathNode(1,1, 3);
-        private readonly CPathNode NodeThree = new CPathNode(2,1, 3);
-        private readonly CPathNode NodeFour = new CPathNode(3,1, 4);
-        private readonly CPathNode NodeFive = new CPathNode(4,1, 5);
-        private readonly CPathNode NodeSix = new CPathNode(5,2, 4);
-        private readonly CPathNode NodeSeven = new CPathNode(6,2, 4);
-        private readonly CPathNode NodeEight = new CPathNode(7,2, 4);
-        private readonly CPathNode NodeNine = new CPathNode(8, 3, 1);
+        private readonly CriticalPathNode NodeOne = new CriticalPathNode(0, 0, 2);
+        private readonly CriticalPathNode NodeTwo = new CriticalPathNode(1,1, 3);
+        private readonly CriticalPathNode NodeThree = new CriticalPathNode(2,1, 3);
+        private readonly CriticalPathNode NodeFour = new CriticalPathNode(3,1, 4);
+        private readonly CriticalPathNode NodeFive = new CriticalPathNode(4,1, 5);
+        private readonly CriticalPathNode NodeSix = new CriticalPathNode(5,2, 4);
+        private readonly CriticalPathNode NodeSeven = new CriticalPathNode(6,2, 4);
+        private readonly CriticalPathNode NodeEight = new CriticalPathNode(7,2, 4);
+        private readonly CriticalPathNode NodeNine = new CriticalPathNode(8, 3, 1);
 
-        private List<CPathNode> TopologySortedNodes;
-        private HashSet<CPathEdge> graphEdges;
-        private DAG.CriticalPathTaskGraph creator;
+        private List<CriticalPathNode> TopologySortedNodes;
+        private HashSet<CriticalPathEdge> graphEdges;
+        private TaskGraph.CriticalPath creator;
 
         [TestInitialize]
         public void Setup()
         {
-            creator = new DAG.CriticalPathTaskGraph(3)
+            creator = new TaskGraph.CriticalPath(3)
             {
-                dagGraph = new Graph<CPathNode, CPathEdge>()
+                dagGraph = new Graph<CriticalPathNode, CriticalPathEdge>()
             };
             creator.dagGraph.AddNode(NodeOne);
             creator.dagGraph.AddNode(NodeTwo);
@@ -39,20 +39,20 @@ namespace Dagable.Core.Scheduling.Tests
             creator.dagGraph.AddNode(NodeSeven);
             creator.dagGraph.AddNode(NodeEight);
             creator.dagGraph.AddNode(NodeNine);
-            creator.dagGraph.AddEdge(new CPathEdge(NodeOne, NodeTwo, 4));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeOne, NodeSeven, 10));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeOne, NodeThree, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeOne, NodeFour, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeOne, NodeFive, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeTwo, NodeSix, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeTwo, NodeSeven, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeThree, NodeEight, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeFour, NodeEight, 1));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeSix, NodeNine, 5));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeSeven, NodeNine, 6));
-            creator.dagGraph.AddEdge(new CPathEdge(NodeEight, NodeNine, 5));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeOne, NodeTwo, 4));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeOne, NodeSeven, 10));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeOne, NodeThree, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeOne, NodeFour, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeOne, NodeFive, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeTwo, NodeSix, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeTwo, NodeSeven, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeThree, NodeEight, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeFour, NodeEight, 1));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeSix, NodeNine, 5));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeSeven, NodeNine, 6));
+            creator.dagGraph.AddEdge(new CriticalPathEdge(NodeEight, NodeNine, 5));
 
-            TopologySortedNodes =  Sorting.KhansTopologySort(creator.dagGraph.Nodes, new HashSet<CPathEdge>(creator.dagGraph.Edges));
+            TopologySortedNodes =  Sorting.KhansTopologySort(creator.dagGraph.Nodes, new HashSet<CriticalPathEdge>(creator.dagGraph.Edges));
             graphEdges = creator.dagGraph.Edges;
         }
 

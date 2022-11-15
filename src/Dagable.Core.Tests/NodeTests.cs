@@ -5,13 +5,13 @@ namespace Dagable.Core.Tests
     [TestClass]
     public class NodeTests
     {
-        private Node firstTestNode, secondTestNode;
+        private StandardNode firstTestNode, secondTestNode;
 
         [TestInitialize]
         public void Setup()
         {
-            firstTestNode = new Node(0);
-            secondTestNode = new Node(1);
+            firstTestNode = new StandardNode(0);
+            secondTestNode = new StandardNode(1);
         }
 
         [TestMethod]

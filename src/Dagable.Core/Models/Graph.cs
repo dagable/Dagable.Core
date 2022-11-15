@@ -5,7 +5,7 @@ namespace Dagable.Core
 {
     public class Graph<N, E> : IGraph<N,E> where N : INode<N> where E : IEdge<N>, new()
     {
-        public HashSet<E> Edges { get; }
+        public readonly HashSet<E> Edges;
 
         public readonly HashSet<N> Nodes;
 
@@ -34,28 +34,18 @@ namespace Dagable.Core
             }));
         }
 
-        /// <inheritdoc cref="IGraph.AddEdges(IEnumerable{N}, N)" />
-        public bool AddEdges(IEnumerable<N> prevNodes, N i)
-        {
-            return prevNodes.ToList().TrueForAll(x => AddEdge(new E
-            {
-                NextNode = i,
-                PrevNode = x
-            }));
-        }
-
         /// <inheritdoc cref="IGraph.AddEdge(E)" />
         public bool AddEdge(E edge)
         {
-            edge.PrevNode.AddSuccessor(edge.NextNode);
-            edge.NextNode.AddPredecessor(edge.PrevNode);
             if (!Edges.Contains(edge))
             {
+                edge.PrevNode.AddSuccessor(edge.NextNode);
+                edge.NextNode.AddPredecessor(edge.PrevNode);
                 Nodes.Add(edge.PrevNode);
                 Nodes.Add(edge.NextNode);
-                Edges.Add(edge);
+                return Edges.Add(edge);
             }
-            return true;
+            return false;
         }
 
         /// <inheritdoc cref="IGraph.AddNode(N)" />

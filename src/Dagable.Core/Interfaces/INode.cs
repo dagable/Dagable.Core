@@ -2,6 +2,10 @@
 {
     public interface INode<N> where N : INode<N>
     {
+        /// <summary>
+        /// Gets the ID of this node.
+        /// </summary>
+        /// <returns>The ID of the node.</returns>
         int GetId();
 
         /// <summary>
@@ -24,6 +28,12 @@
         /// </summary>
         N UpdateLayer(int layer);
 
+        /// <summary>
+        /// Method that compares one node to another.
+        /// </summary>
+        /// <typeparam name="T">Either a StandardNode or CriticalPathNode</typeparam>
+        /// <param name="prevNode">Another node to compare to</param>
+        /// <returns>0 if they are the same./returns>
         int CompareTo<T>(N prevNode) where T : INode<N>, new();
     }
 }

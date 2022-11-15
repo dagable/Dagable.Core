@@ -10,18 +10,18 @@ namespace Dagable.Core.Tests
     [TestClass]
     public class SortingTests
     {
-        private Node NodeOne = new Node(1);
-        private Node NodeTwo = new Node(2);
-        private Node NodeThree = new Node(3);
-        private Node NodeFour = new Node(4);
+        private readonly StandardNode NodeOne = new(1);
+        private readonly StandardNode NodeTwo = new(2);
+        private readonly StandardNode NodeThree = new(3);
+        private readonly StandardNode NodeFour = new(4);
 
         [TestMethod]
         public void Graph_HasNoLoops_ReturnsValidTopology()
         {
-            Graph<Node, Edge<Node>> graph = new Graph<Node, Edge<Node>>();
-            graph.AddEdge(new Edge<Node>(NodeOne, NodeTwo));
-            graph.AddEdge(new Edge<Node>(NodeOne, NodeThree));
-            graph.AddEdge(new Edge<Node>(NodeThree, NodeFour));
+            Graph<StandardNode, StandardEdge<StandardNode>> graph = new();
+            graph.AddEdge(new StandardEdge<StandardNode>(NodeOne, NodeTwo));
+            graph.AddEdge(new StandardEdge<StandardNode>(NodeOne, NodeThree));
+            graph.AddEdge(new StandardEdge<StandardNode>(NodeThree, NodeFour));
             
             var result = Sorting.KhansTopologySort(graph.Nodes, graph.Edges);
             Assert.IsTrue(result.Any());
@@ -31,10 +31,10 @@ namespace Dagable.Core.Tests
         [TestMethod]
         public void Graph_HasNoLoops_ReturnsNull()
         {
-            Graph<Node, Edge<Node>> graph = new Graph<Node, Edge<Node>>();
-            graph.AddEdge(new Edge<Node>(NodeOne, NodeTwo));
-            graph.AddEdge(new Edge<Node>(NodeOne, NodeThree));
-            graph.AddEdge(new Edge<Node>(NodeThree, NodeOne)); //add loop here
+            Graph<StandardNode, StandardEdge<StandardNode>> graph = new();
+            graph.AddEdge(new StandardEdge<StandardNode>(NodeOne, NodeTwo));
+            graph.AddEdge(new StandardEdge<StandardNode>(NodeOne, NodeThree));
+            graph.AddEdge(new StandardEdge<StandardNode>(NodeThree, NodeOne)); //add loop here
 
             var result = Sorting.KhansTopologySort(graph.Nodes, graph.Edges);
             Assert.AreEqual(result, null);
