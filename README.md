@@ -15,7 +15,7 @@ Dagable.Core is a nuget package that supports the creation and scheduling of Dyn
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [About](#About)
-  - [Generation](#Generation)
+  - [Generation](#Generating)
   - [Scheduling](#Scheduling)
   - [Sorting](#Sorting)
 - [References](#References)
