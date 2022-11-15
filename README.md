@@ -104,7 +104,7 @@ Initially, the ready node pool holds only the entry nodes
     
 repeat
 
-Calculate the earliest start time for every node on each of the 		processors. Then calculate the DL of every node-processor pair. This 	is calculated by subtracting the earliest start-time from the node 		static b-level
+Calculate the earliest start time for every node on each of the processors. Then calculate the DL of every node-processor pair. This is calculated by subtracting the earliest start-time from the node static b-level
 Schedule the node-processor pair which gives the largest DL to the corresponding processor. 
 Add the newly ready nodes to the ready pool.
 
