@@ -28,11 +28,11 @@ If you require Scheduling install the nuget pacage found [here](https://www.nuge
 
 Generation Only:
 
-```dotnet add package Dagable.Core --version 1.0.0-alpha-9```
+```dotnet add package Dagable.Core --version <version>```
 
 Scheduling and graph generation:
 
-```dotnet add package Dagable.Core.Scheduling --version 1.0.0-alpha-9```
+```dotnet add package Dagable.Core.Scheduling --version <version>```
 
 ## Usage
 
