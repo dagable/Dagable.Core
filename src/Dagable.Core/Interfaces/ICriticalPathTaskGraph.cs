@@ -5,7 +5,7 @@ namespace Dagable.Core
 {
     public interface ICriticalPathTaskGraph : IStandardTaskGraph
     {
-        HashSet<CPathNode> Nodes { get; }
-        HashSet<CPathEdge> Edges { get; }
+        HashSet<CriticalPathNode> Nodes { get; }
+        HashSet<CriticalPathEdge> Edges { get; }
     }
 }

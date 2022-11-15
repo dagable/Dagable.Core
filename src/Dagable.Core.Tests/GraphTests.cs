@@ -1,56 +1,104 @@
 ﻿using Dagable.Core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Dagable.Core.Tests
 {
     [TestClass]
     public class GraphTests
     {
-        private Node firstTestNode;
-        private Node secondTestNode;
-        private Graph<Node, Edge<Node>> testGraph;
+        private StandardNode firstTestNode;
+        private StandardNode secondTestNode;
+        private Graph<CriticalPathNode, CriticalPathEdge> testCriticalPathGraph;
+        private Graph<StandardNode, StandardEdge<StandardNode>> testStandardGraph;
+        private const int EDGE_COMM_TIME = 9;
+
 
         [TestInitialize]
         public void Setup()
         {
-            firstTestNode = new Node(0);
-            secondTestNode = new Node(1);
-            testGraph = new Graph<Node, Edge<Node>>();
+            firstTestNode = new StandardNode(0);
+            secondTestNode = new StandardNode(1);
+            testStandardGraph = new Graph<StandardNode, StandardEdge<StandardNode>>();
+            testCriticalPathGraph = new Graph<CriticalPathNode, CriticalPathEdge>();
         }
 
         [TestMethod]
         public void Add_EdgeToGraphCriticalPath_ShouldBeASuccess()
         {
-            var graph = new Graph<CPathNode, CPathEdge>();
-            var newNodeOne = new CPathNode();
-            var newNodeTwo = new CPathNode();
-            graph.AddEdge(new CPathEdge(newNodeOne, newNodeTwo, 9));
+            var graph = new Graph<CriticalPathNode, CriticalPathEdge>();
+            var newNodeOne = new CriticalPathNode();
+            var newNodeTwo = new CriticalPathNode();
+            graph.AddEdge(new CriticalPathEdge(newNodeOne, newNodeTwo, EDGE_COMM_TIME));
             Assert.IsTrue(newNodeOne.SuccessorNodes.Count == 1);
+            Assert.IsTrue(!newNodeOne.PredecessorNodes.Any());
             Assert.IsTrue(newNodeTwo.PredecessorNodes.Count == 1);
-        }
-
-        [TestMethod]
-        public void Add_EdgeToGraph_ShouldBeASuccess()
-        {
-            var result = testGraph.AddEdge(new Edge<Node>(firstTestNode, secondTestNode));
-            Assert.IsTrue(firstTestNode.SuccessorNodes.Count == 1);
-            Assert.IsTrue(secondTestNode.PredecessorNodes.Count == 1);
-            Assert.AreEqual(result, true);
-            Assert.AreEqual(testGraph.Edges.Count, 1);
+            Assert.IsTrue(!newNodeTwo.SuccessorNodes.Any());
+            Assert.IsTrue(graph.Edges.First().CommTime == EDGE_COMM_TIME);
         }
 
         [TestMethod]
         public void Add_DuplicateEdgeToGraph_ShouldNotAddDuplicate()
         {
-            testGraph.AddEdge(new Edge<Node>(firstTestNode, secondTestNode));
-            testGraph.AddEdge(new Edge<Node>(firstTestNode, secondTestNode));
-            Assert.AreEqual(firstTestNode.SuccessorNodes.Count, 1);
+            testStandardGraph.AddEdge(new StandardEdge<StandardNode>(firstTestNode, secondTestNode));
+            testStandardGraph.AddEdge(new StandardEdge<StandardNode>(firstTestNode, secondTestNode));
+            Assert.AreEqual(1, firstTestNode.SuccessorNodes.Count);
+            Assert.AreEqual(1, testStandardGraph.Edges.Count);
         }
 
         [TestMethod]
-        public void Add_nodeToGraph_ShouldBeSuccessful()
+        public void Add_NodeToGraph_ShouldBeSuccessful()
         {
-            Assert.IsTrue(testGraph.AddNode(firstTestNode));
+            Assert.IsTrue(testStandardGraph.AddNode(firstTestNode));
+            Assert.AreEqual(1, testStandardGraph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void Add_DuplicateNodeToGraph_ShouldBeSuccessful()
+        {
+            Assert.IsTrue(testStandardGraph.AddNode(firstTestNode));
+            Assert.IsFalse(testStandardGraph.AddNode(firstTestNode));
+            Assert.AreEqual(1, testStandardGraph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void Given_AnEmptyCriticalTaskGraph_When_NodesAreAdded_OnlyDistinctNodesAreAdded()
+        {
+            var firstNode = new CriticalPathNode(1, 400);
+            var secondNode = new CriticalPathNode(1, 400);
+            var thirdNode = new CriticalPathNode(1, 500);
+            var fourthNode = new CriticalPathNode(1, 500, 400);
+            var fifthNode = new CriticalPathNode(2, 500, 400);
+            // first node is added
+            Assert.IsTrue(testCriticalPathGraph.AddNode(firstNode));
+            Assert.AreEqual(1, testCriticalPathGraph.Nodes.Count);
+            //2nd node not added same id
+            Assert.IsFalse(testCriticalPathGraph.AddNode(secondNode));
+            Assert.AreEqual(1, testCriticalPathGraph.Nodes.Count);
+            //3rd node not added same id
+            Assert.IsFalse(testCriticalPathGraph.AddNode(thirdNode));
+            Assert.AreEqual(1, testCriticalPathGraph.Nodes.Count);
+            //4th node not added same id
+            Assert.IsFalse(testCriticalPathGraph.AddNode(fourthNode));
+            Assert.AreEqual(1, testCriticalPathGraph.Nodes.Count);
+            //5th node added different id
+            Assert.IsTrue(testCriticalPathGraph.AddNode(fifthNode));
+            Assert.AreEqual(2, testCriticalPathGraph.Nodes.Count);
+        }
+
+        [TestMethod]
+        public void Given_AnEmptyCriticalTaskGraph_When_EdgesAreAdded_OnlyDistinctEdgesAreAdded()
+        {
+            var firstNode = new CriticalPathNode(1, 400);
+            var fourthNode = new CriticalPathNode(1, 500, 400);
+            var fifthNode = new CriticalPathNode(2, 500, 400);
+            var addValidEdge = testCriticalPathGraph.AddEdge(new CriticalPathEdge(firstNode, fifthNode, EDGE_COMM_TIME));
+            Assert.IsTrue(addValidEdge);
+            var addDuplicateEdge = testCriticalPathGraph.AddEdge(new CriticalPathEdge(firstNode, fifthNode, EDGE_COMM_TIME));
+            var nodeCountPrior = testCriticalPathGraph.Nodes.Count;
+            Assert.IsFalse(addDuplicateEdge);
+            Assert.IsFalse(testCriticalPathGraph.AddEdge(new CriticalPathEdge(fourthNode, fifthNode, EDGE_COMM_TIME)));
+            Assert.AreEqual(nodeCountPrior, testCriticalPathGraph.Nodes.Count);
         }
     }
 }

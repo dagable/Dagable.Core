@@ -1,13 +1,13 @@
 ﻿using Dagable.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
-using static Dagable.Core.DAG;
+using static Dagable.Core.TaskGraph;
 
 namespace Dagable.Core.Scheduling
 {
     public static class CoreFunctions
     {
-       public static Dictionary<CPathNode, int> ComputerTLevel(List<CPathNode> toplogySortedNodes, HashSet<CPathEdge> edges)
+       public static Dictionary<CriticalPathNode, int> ComputerTLevel(List<CriticalPathNode> toplogySortedNodes, HashSet<CriticalPathEdge> edges)
        {
             var results = toplogySortedNodes.ToDictionary(x => x, x => default(int));
             foreach(var node in toplogySortedNodes)
@@ -26,7 +26,7 @@ namespace Dagable.Core.Scheduling
        }
 
 
-        public static Dictionary<CPathNode, int> ComputerBLevel(List<CPathNode> topologySortedNodes, HashSet<CPathEdge> edges)
+        public static Dictionary<CriticalPathNode, int> ComputerBLevel(List<CriticalPathNode> topologySortedNodes, HashSet<CriticalPathEdge> edges)
         {
             topologySortedNodes.Reverse();
             var results = topologySortedNodes.ToDictionary(x => x, x => default(int));
@@ -46,7 +46,7 @@ namespace Dagable.Core.Scheduling
             return results;
         }
 
-        public static Dictionary<CPathNode, int> ComputerStaticBLevel(List<CPathNode> topologySortedNodes)
+        public static Dictionary<CriticalPathNode, int> ComputerStaticBLevel(List<CriticalPathNode> topologySortedNodes)
         {
             topologySortedNodes.Reverse();
             var results = topologySortedNodes.ToDictionary(x => x, x => default(int));
@@ -66,9 +66,9 @@ namespace Dagable.Core.Scheduling
             return results;
         }
 
-        public static Dictionary<CPathNode, int> ComputeALAP(CriticalPathTaskGraph graph)
+        public static Dictionary<CriticalPathNode, int> ComputeALAP(CriticalPath graph)
         {
-            var topologyOrdered = Sorting.KhansTopologySort(graph.dagGraph.Nodes, new HashSet<CPathEdge>(graph.dagGraph.Edges));
+            var topologyOrdered = Sorting.KhansTopologySort(graph.dagGraph.Nodes, new HashSet<CriticalPathEdge>(graph.dagGraph.Edges));
             topologyOrdered.Reverse();
             var results = topologyOrdered.ToDictionary(x => x, x => default(int));
             var CPathLength = graph.DetermineCriticalPathLength();

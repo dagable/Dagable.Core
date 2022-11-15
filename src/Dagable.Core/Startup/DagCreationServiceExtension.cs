@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using static Dagable.Core.DAG;
+using static Dagable.Core.TaskGraph;
 
 namespace Dagable.Core
 {
@@ -7,8 +7,8 @@ namespace Dagable.Core
     {
         public static IServiceCollection AddDagableCoreServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<ICriticalPathTaskGraph, CriticalPathTaskGraph>()
-                .AddTransient<IStandardTaskGraph, StandardTaskGraph>()
+            serviceCollection.AddTransient<ICriticalPathTaskGraph, CriticalPath>()
+                .AddTransient<IStandardTaskGraph, Standard>()
                 .AddTransient<IDagCreationService, DagCreationService>();
             
 
