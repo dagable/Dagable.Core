@@ -1,11 +1,12 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dagable/Dagable.Core/main/Documentation/images/logo.png" height="200px" />
+  <img src="./Documentation/images/logo.png" height="200px" />
 </p>
 
 
 ![Twitter Follow](https://img.shields.io/twitter/follow/jwmxyz?label=%40jwmxyz&style=social)
 
-[![Build Status](https://travis-ci.com/Dagable/Dagable.Core.svg?token=yE1jQHJ1CjkJeVSaVSDa&branch=main)](https://travis-ci.com/Dagable/Dagable.Core) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c09f67e58b27454abf4272366cc46bb2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dagable/Dagable.Core&amp;utm_campaign=Badge_Grade)
+![dagableCoreworkflow](https://github.com/dagable/Dagable.Core/actions/workflows/nugetBuildAndDeploy.yml/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c09f67e58b27454abf4272366cc46bb2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Dagable/Dagable.Core&amp;utm_campaign=Badge_Grade)
 
 # Dagable.Core
 
@@ -14,7 +15,7 @@ Dagable.Core is a nuget package that supports the creation and scheduling of Dyn
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [About](#About)
-  - [Generation](#Generation)
+  - [Generation](#Generating)
   - [Scheduling](#Scheduling)
   - [Sorting](#Sorting)
 - [References](#References)
@@ -27,11 +28,11 @@ If you require Scheduling install the nuget pacage found [here](https://www.nuge
 
 Generation Only:
 
-```dotnet add package Dagable.Core --version 1.0.0-alpha-9```
+```dotnet add package Dagable.Core --version <version>```
 
 Scheduling and graph generation:
 
-```dotnet add package Dagable.Core.Scheduling --version 1.0.0-alpha-9```
+```dotnet add package Dagable.Core.Scheduling --version <version>```
 
 ## Usage
 
@@ -103,7 +104,7 @@ Initially, the ready node pool holds only the entry nodes
     
 repeat
 
-Calculate the earliest start time for every node on each of the 		processors. Then calculate the DL of every node-processor pair. This 	is calculated by subtracting the earliest start-time from the node 		static b-level
+Calculate the earliest start time for every node on each of the processors. Then calculate the DL of every node-processor pair. This is calculated by subtracting the earliest start-time from the node static b-level
 Schedule the node-processor pair which gives the largest DL to the corresponding processor. 
 Add the newly ready nodes to the ready pool.
 
