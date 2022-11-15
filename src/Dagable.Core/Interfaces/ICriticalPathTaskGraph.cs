@@ -1,11 +1,14 @@
-﻿using Dagable.Core.Models;
+﻿using Dagable.Core.JsonConverters;
+using Dagable.Core.Models;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Dagable.Core
 {
-    public interface ICriticalPathTaskGraph : IStandardTaskGraph
+    [JsonConverter(typeof(CriticalPathTaskGraphJsonConverter))]
+    public interface ICriticalPathTaskGraph : IStandardTaskGraph<CriticalPathNode, CriticalPathEdge>
     {
-        HashSet<CriticalPathNode> Nodes { get; }
-        HashSet<CriticalPathEdge> Edges { get; }
+        List<CriticalPathEdge> GetCriticalPathEdges { get; }
+        int GetCriticalPathLength { get; }
     }
 }

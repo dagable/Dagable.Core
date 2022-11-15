@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Dagable.Core.JsonConverters;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,19 @@ namespace Dagable.Core
 {
     public partial class TaskGraph
     {
-        static readonly Random random = new Random();
+        private static readonly Random random = new();
 
-        public class Standard : IStandardTaskGraph
+        public class Standard : IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>>
         {
             protected int LayerCount { get; private set; }
             protected int NodeCount { get; private set; }
+            public HashSet<StandardNode> Nodes => dagGraph.Nodes;
+            public HashSet<StandardEdge<StandardNode>> Edges => dagGraph.Edges;
+
+            public int Layers => LayerCount;
 
             protected double _propbability;
-
             public Graph<StandardNode, StandardEdge<StandardNode>> dagGraph;
-
             protected readonly Dictionary<int, List<StandardNode>> _layeredNodes = new Dictionary<int, List<StandardNode>>();
 
             public Standard()

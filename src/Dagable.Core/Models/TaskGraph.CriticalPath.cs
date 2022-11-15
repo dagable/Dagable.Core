@@ -20,8 +20,13 @@ namespace Dagable.Core
 
             private List<CriticalPathEdge> CriticalPathEdges;
 
-            HashSet<CriticalPathEdge> ICriticalPathTaskGraph.Edges => dagGraph.Edges;
-            HashSet<CriticalPathNode> ICriticalPathTaskGraph.Nodes => dagGraph.Nodes;
+            HashSet<CriticalPathNode> IStandardTaskGraph<CriticalPathNode, CriticalPathEdge>.Nodes => dagGraph.Nodes;
+
+            HashSet<CriticalPathEdge> IStandardTaskGraph<CriticalPathNode, CriticalPathEdge>.Edges => dagGraph.Edges;
+
+            List<CriticalPathEdge> ICriticalPathTaskGraph.GetCriticalPathEdges => CriticalPathEdges;
+
+            int ICriticalPathTaskGraph.GetCriticalPathLength => DetermineCriticalPathLength();
 
             public CriticalPath() {
                 MinComp = random.Next(1, 10);
@@ -104,6 +109,7 @@ namespace Dagable.Core
                 {
                     dagGraph.AddEdge(new CriticalPathEdge(n, node,  0));
                 }
+                FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
                 return this;
             }
 

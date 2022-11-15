@@ -6,13 +6,13 @@ namespace Dagable.Core
     {
 
         /// <inheritdoc cref="IDagCreationService.GenerateStandardTaskGraph"/>
-        public IStandardTaskGraph GenerateStandardTaskGraph()
+        public IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>> GenerateStandardTaskGraph()
         {
             return new Standard().Generate();
         }
 
         /// <inheritdoc cref="IDagCreationService.GenerateStandardTaskGraph(int, int, double)"/>
-        public IStandardTaskGraph GenerateStandardTaskGraph(int layers, int nodes, double probability)
+        public IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>> GenerateStandardTaskGraph(int layers, int nodes, double probability)
         {
             return new Standard(layers, nodes, probability).Generate();
         }
