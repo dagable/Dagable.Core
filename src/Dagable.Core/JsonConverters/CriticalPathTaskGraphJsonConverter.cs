@@ -1,9 +1,7 @@
-﻿using Dagable.Core.Models;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Xml.Linq;
 
 namespace Dagable.Core.JsonConverters
 {
@@ -20,7 +18,6 @@ namespace Dagable.Core.JsonConverters
             var edges = value.Edges.Where(x => x.NextNode.Layer != value.Layers).ToArray();
             var criticalEdges = value.GetCriticalPathEdges;
             writer.WriteStartObject();
-            writer.WriteStartObject("graph");
             writer.WriteStartArray("nodes");
             foreach (var node in nodes)
             {
@@ -43,7 +40,6 @@ namespace Dagable.Core.JsonConverters
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();
-            writer.WriteEndObject();
             writer.WriteEndObject();
         }
     }

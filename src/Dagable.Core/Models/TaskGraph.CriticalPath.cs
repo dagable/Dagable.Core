@@ -26,8 +26,6 @@ namespace Dagable.Core
 
             List<CriticalPathEdge> ICriticalPathTaskGraph.GetCriticalPathEdges => CriticalPathEdges;
 
-            int ICriticalPathTaskGraph.GetCriticalPathLength => DetermineCriticalPathLength();
-
             public CriticalPath() {
                 MinComp = random.Next(1, 10);
                 MaxComp = random.Next(10, 20);
@@ -211,21 +209,6 @@ namespace Dagable.Core
                     CriticalPathEdges.Select(x => x.NextNode).Union(CriticalPathEdges.Select(x => x.PrevNode)).Sum(x => x.ComputationTime) +
                     CriticalPathEdges.Sum(x => x.CommTime);
             }
-
-            /// <summary>
-            /// Returns a JSON object of a string represnetation of this graph.
-            /// TODO: replace with a better version of JSON representation
-            /// </summary>
-            /// <returns>A string representation of this graph as JSON</returns>
-            public override string ToString()
-            {
-                var criticalPathEdges = FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
-                return JsonConvert.SerializeObject(new
-                {
-                    Nodes = dagGraph.Nodes.Where(x => x.Layer != LayerCount).Select(x => new { id = x.Id, label = $"{x.ComputationTime}", level = x.Layer }),
-                    Edges = dagGraph.Edges.Where(x => x.NextNode.Layer != LayerCount).Select((x, i) => new { label = $"{x.CommTime}", id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id, color = criticalPathEdges.Any(e => e.PrevNode.Id == x.PrevNode.Id && e.NextNode.Id == x.NextNode.Id) ? "#f16f4e" : "black"})
-                });
-            }                      
         }
     }
 }

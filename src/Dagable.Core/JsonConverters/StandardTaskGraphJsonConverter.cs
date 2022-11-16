@@ -17,9 +17,8 @@ namespace Dagable.Core.JsonConverters
             var nodes = value.Nodes.Where(x => x.Layer != value.Layers);
             var edges = value.Edges.Where(x => x.NextNode.Layer != value.Layers).ToArray();
             writer.WriteStartObject();
-            writer.WriteStartObject("graph");
             writer.WriteStartArray("nodes");
-            foreach(var node in nodes)
+            foreach (var node in nodes)
             {
                 writer.WriteStartObject();
                 writer.WriteNumber("id", node.Id);
@@ -38,7 +37,6 @@ namespace Dagable.Core.JsonConverters
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();
-            writer.WriteEndObject();
             writer.WriteEndObject();
         }
     }

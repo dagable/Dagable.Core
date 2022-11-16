@@ -9,6 +9,5 @@ namespace Dagable.Core
     public interface ICriticalPathTaskGraph : IStandardTaskGraph<CriticalPathNode, CriticalPathEdge>
     {
         List<CriticalPathEdge> GetCriticalPathEdges { get; }
-        int GetCriticalPathLength { get; }
     }
 }

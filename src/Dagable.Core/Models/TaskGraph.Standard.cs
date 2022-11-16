@@ -1,6 +1,4 @@
-﻿using Dagable.Core.JsonConverters;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -115,20 +113,6 @@ namespace Dagable.Core
             internal List<StandardNode> TopologySortedGraph()
             {
                 return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
-            }
-
-            /// <summary>
-            /// Returns a JSON object of a string represnetation of this graph.
-            /// TODO: replace with a better version of JSON representation
-            /// </summary>
-            /// <returns>A string representation of this graph as JSON</returns>
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(new
-                {
-                    Nodes = dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer }),
-                    Edges = dagGraph.Edges.Select((x, i) => new { id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id })
-                });
             }
         }
     }
