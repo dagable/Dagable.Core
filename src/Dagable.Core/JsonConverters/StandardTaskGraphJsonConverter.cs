@@ -23,7 +23,7 @@ namespace Dagable.Core.JsonConverters
                 writer.WriteStartObject();
                 writer.WriteNumber("id", node.Id);
                 writer.WriteNumber("level", node.Layer);
-                writer.WriteString("label", node.Id.ToString());
+                writer.WriteString("label", $"n{node.Id}");
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();

@@ -24,7 +24,7 @@ namespace Dagable.Core.JsonConverters
                 writer.WriteStartObject();
                 writer.WriteNumber("id", node.Id);
                 writer.WriteNumber("level", node.Layer);
-                writer.WriteString("label", $"{node.Id}_{node.ComputationTime}");
+                writer.WriteString("label", $"n{node.Id}_c{node.ComputationTime}");
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();
