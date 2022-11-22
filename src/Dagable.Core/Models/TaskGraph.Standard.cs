@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,17 +6,19 @@ namespace Dagable.Core
 {
     public partial class TaskGraph
     {
-        static readonly Random random = new Random();
+        private static readonly Random random = new();
 
-        public class Standard : IStandardTaskGraph
+        public class Standard : IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>>
         {
             protected int LayerCount { get; private set; }
             protected int NodeCount { get; private set; }
+            public HashSet<StandardNode> Nodes => dagGraph.Nodes;
+            public HashSet<StandardEdge<StandardNode>> Edges => dagGraph.Edges;
+
+            public int Layers => LayerCount;
 
             protected double _propbability;
-
             public Graph<StandardNode, StandardEdge<StandardNode>> dagGraph;
-
             protected readonly Dictionary<int, List<StandardNode>> _layeredNodes = new Dictionary<int, List<StandardNode>>();
 
             public Standard()
@@ -112,20 +113,6 @@ namespace Dagable.Core
             internal List<StandardNode> TopologySortedGraph()
             {
                 return Sorting.KhansTopologySort(dagGraph.Nodes, dagGraph.Edges);
-            }
-
-            /// <summary>
-            /// Returns a JSON object of a string represnetation of this graph.
-            /// TODO: replace with a better version of JSON representation
-            /// </summary>
-            /// <returns>A string representation of this graph as JSON</returns>
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(new
-                {
-                    Nodes = dagGraph.Nodes.Select(x => new { id = x.Id, label = $"{x.Id}", level = x.Layer }),
-                    Edges = dagGraph.Edges.Select((x, i) => new { id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id })
-                });
             }
         }
     }

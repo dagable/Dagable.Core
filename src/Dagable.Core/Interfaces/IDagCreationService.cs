@@ -34,7 +34,7 @@
         /// Method used to create a Standard task graph using default settings
         /// </summary>
         /// <returns>The created Standard task graph</returns>
-        IStandardTaskGraph GenerateStandardTaskGraph();
+        IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>> GenerateStandardTaskGraph();
 
         /// <summary>
         /// Method used to create a Standard task graph using default settings
@@ -43,6 +43,6 @@
         /// <param name="nodes">The total number of nodes that the task graph should contain</param>
         /// <param name="probability">The probability that a node has to be connected to a node on the next layer</param>
         /// <returns>The created Standard task graph based on options passed to it</returns>
-        IStandardTaskGraph GenerateStandardTaskGraph(int layers, int nodes, double probability);
+        IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>> GenerateStandardTaskGraph(int layers, int nodes, double probability);
     }
 }

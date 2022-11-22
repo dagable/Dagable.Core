@@ -20,8 +20,11 @@ namespace Dagable.Core
 
             private List<CriticalPathEdge> CriticalPathEdges;
 
-            HashSet<CriticalPathEdge> ICriticalPathTaskGraph.Edges => dagGraph.Edges;
-            HashSet<CriticalPathNode> ICriticalPathTaskGraph.Nodes => dagGraph.Nodes;
+            HashSet<CriticalPathNode> IStandardTaskGraph<CriticalPathNode, CriticalPathEdge>.Nodes => dagGraph.Nodes;
+
+            HashSet<CriticalPathEdge> IStandardTaskGraph<CriticalPathNode, CriticalPathEdge>.Edges => dagGraph.Edges;
+
+            List<CriticalPathEdge> ICriticalPathTaskGraph.GetCriticalPathEdges => CriticalPathEdges;
 
             public CriticalPath() {
                 MinComp = random.Next(1, 10);
@@ -104,6 +107,7 @@ namespace Dagable.Core
                 {
                     dagGraph.AddEdge(new CriticalPathEdge(n, node,  0));
                 }
+                FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
                 return this;
             }
 
@@ -205,21 +209,6 @@ namespace Dagable.Core
                     CriticalPathEdges.Select(x => x.NextNode).Union(CriticalPathEdges.Select(x => x.PrevNode)).Sum(x => x.ComputationTime) +
                     CriticalPathEdges.Sum(x => x.CommTime);
             }
-
-            /// <summary>
-            /// Returns a JSON object of a string represnetation of this graph.
-            /// TODO: replace with a better version of JSON representation
-            /// </summary>
-            /// <returns>A string representation of this graph as JSON</returns>
-            public override string ToString()
-            {
-                var criticalPathEdges = FindCriticalPath(dagGraph.Nodes.First(x => x.Layer == 0), dagGraph.Nodes.First(x => x.Layer == LayerCount));
-                return JsonConvert.SerializeObject(new
-                {
-                    Nodes = dagGraph.Nodes.Where(x => x.Layer != LayerCount).Select(x => new { id = x.Id, label = $"{x.ComputationTime}", level = x.Layer }),
-                    Edges = dagGraph.Edges.Where(x => x.NextNode.Layer != LayerCount).Select((x, i) => new { label = $"{x.CommTime}", id = $"edge_{i}", from = x.PrevNode.Id, to = x.NextNode.Id, color = criticalPathEdges.Any(e => e.PrevNode.Id == x.PrevNode.Id && e.NextNode.Id == x.NextNode.Id) ? "#f16f4e" : "black"})
-                });
-            }                      
         }
     }
 }

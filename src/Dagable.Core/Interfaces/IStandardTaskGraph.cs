@@ -1,7 +1,14 @@
-﻿namespace Dagable.Core
+﻿using Dagable.Core.JsonConverters;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace Dagable.Core
 {
-    public interface IStandardTaskGraph
+    [JsonConverter(typeof(StandardTaskGraphJsonConverter))]
+    public interface IStandardTaskGraph<N, E> 
     {
-        string ToString();
+        int Layers { get; }
+        HashSet<N> Nodes { get; }
+        HashSet<E> Edges { get; }
     }
 }
