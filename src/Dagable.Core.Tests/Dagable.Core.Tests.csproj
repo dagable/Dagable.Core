@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dagable.Core.Scheduling\Dagable.Core.Scheduling.csproj" />
     <ProjectReference Include="..\Dagable.Core\Dagable.Core.csproj" />
   </ItemGroup>
 

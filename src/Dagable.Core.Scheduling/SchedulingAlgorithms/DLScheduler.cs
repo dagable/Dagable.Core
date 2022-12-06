@@ -1,7 +1,6 @@
 ﻿using Dagable.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Dagable.Core.Scheduling
@@ -59,7 +58,6 @@ namespace Dagable.Core.Scheduling
                 var processor = maxDlPair.Item3.ToList().IndexOf(maxDlPair.Item3.Min());
                 processedNodes[processor].Add(new ScheduledNode(maxDlPair.Item1.Node, maxDlPair.Item3[processor], maxDlPair.Item3[processor] + maxDlPair.Item1.Node.ComputationTime));
                 readyNodePool.Remove(maxDlPair.Item1);
-                Debug.WriteLine($"Node: {maxDlPair.Item1.Node.Id + 1} p: {processor} sl: {NodeStaticBLevelMappings[maxDlPair.Item1.Node]} - {string.Join(',', maxDlPair.Item3)} DL: {maxDl}");
                 foreach (var childnode in maxDlPair.Item1.Node.SuccessorNodes)
                 {
                     if (!processedNodes.Values.SelectMany(x => x).Any(x => x.Id == childnode.Id) && !readyNodePool.Any(x => x.Node.Id == childnode.Id))

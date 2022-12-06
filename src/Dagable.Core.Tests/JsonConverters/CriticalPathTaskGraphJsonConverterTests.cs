@@ -1,7 +1,9 @@
 ﻿using Dagable.Core.Models;
+using Dagable.Core.Scheduling;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -61,5 +63,35 @@ namespace Dagable.Core.Tests.JsonConverters
             Assert.AreEqual(_criticalPathTaskGraphJsonResult, jsonString);
         }
 
+        [TestMethod]
+        public void When_ConvertingCriticalTaskGraph_FromJson_ValueIsCorrect()
+        {
+            var desObject = JsonSerializer.Deserialize<ICriticalPathTaskGraph>(_criticalPathTaskGraphJsonResult);
+            Assert.AreEqual(_criticalTaskGraph.Object.Nodes.Count, desObject.Nodes.Count);
+            Assert.AreEqual(_criticalTaskGraph.Object.Edges.Count, desObject.Edges.Count);
+        }
+
+        [TestMethod]
+        public void DLSSchedule()
+        {
+            var desObject = JsonSerializer.Deserialize<ICriticalPathTaskGraph>(_criticalPathTaskGraphJsonResult);
+
+            var scheduler = new DLScheduler(3, desObject);
+
+            var results = scheduler.Schedule();
+
+            Assert.IsNotNull(results);
+#if DEBUG
+            foreach (var res in results)
+            {
+                Debug.WriteLine($"processor: {res.Key + 1}");
+                foreach (var item in res.Value)
+                {
+                    Debug.WriteLine($"    item: {item.Id + 1}, start: {item.StartAt} end: {item.EndAt}");
+                }
+            }
+
+#endif
+        }
     }
 }

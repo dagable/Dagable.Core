@@ -1,31 +1,4 @@
 {
-  "nodes": [
-    {
-      "id": 1,
-      "level": 0,
-      "label": "n1_c10"
-    },
-    {
-      "id": 2,
-      "level": 1,
-      "label": "n2_c1"
-    },
-    {
-      "id": 3,
-      "level": 1,
-      "label": "n3_c10"
-    },
-    {
-      "id": 4,
-      "level": 2,
-      "label": "n4_c10"
-    },
-    {
-      "id": 5,
-      "level": 2,
-      "label": "n5_c1"
-    }
-  ],
   "edges": [
     {
       "id": "edge_0",
@@ -61,6 +34,33 @@
       "to": 5,
       "label": "2",
       "color": "black"
+    }
+  ],
+  "nodes": [
+    {
+      "id": 1,
+      "level": 0,
+      "label": "n1_c10"
+    },
+    {
+      "id": 2,
+      "level": 1,
+      "label": "n2_c1"
+    },
+    {
+      "id": 3,
+      "level": 1,
+      "label": "n3_c10"
+    },
+    {
+      "id": 4,
+      "level": 2,
+      "label": "n4_c10"
+    },
+    {
+      "id": 5,
+      "level": 2,
+      "label": "n5_c1"
     }
   ]
 }
