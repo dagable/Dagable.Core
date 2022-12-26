@@ -5,10 +5,11 @@
     <Authors>jwmxyz</Authors>
     <PackageId>Dagable.Core.Scheduling</PackageId>
     <PackageProjectUrl>https://jwm.xyz</PackageProjectUrl>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageDescription>This package adds support for Directed Acyclic Graph generation and scheduling.</PackageDescription>
     <RepositoryUrl>https://github.com/dagable/Dagable.Core</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>0.0.1-alpha-$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Version>
   </PropertyGroup>
 
   <ItemGroup>

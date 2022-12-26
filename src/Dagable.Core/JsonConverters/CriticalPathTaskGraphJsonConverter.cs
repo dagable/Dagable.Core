@@ -150,10 +150,12 @@ namespace Dagable.Core.JsonConverters
 
             nodeCollection.ToList().ForEach(x => graph.AddNode(x));
             edgeCollection.ToList().ForEach(x => graph.AddEdge(x));
-            return new CriticalPath()
+            var createdGraph = new CriticalPath(nodeCollection.Max(x => x.Layer))
             {
                 dagGraph = graph,
             };
+            createdGraph.DetermineCriticalPathLength();
+            return createdGraph;
         }
 
 
