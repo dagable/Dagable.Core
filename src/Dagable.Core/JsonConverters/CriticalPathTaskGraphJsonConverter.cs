@@ -67,7 +67,7 @@ namespace Dagable.Core.JsonConverters
                                         break;
                                     case "from":
                                         reader.Read();
-                                        idFrom = reader.GetInt32();
+                                        idFrom = reader.GetInt32() - 1;
                                         if (!nodeCollection.Any(x => x.Id == idFrom))
                                         {
                                             nodeCollection.Add(new CriticalPathNode(idFrom));
@@ -75,7 +75,7 @@ namespace Dagable.Core.JsonConverters
                                         break;
                                     case "to":
                                         reader.Read();
-                                        idTo = reader.GetInt32();
+                                        idTo = reader.GetInt32() - 1;
                                         if (!nodeCollection.Any(x => x.Id == idTo))
                                         {
                                             nodeCollection.Add(new CriticalPathNode(idTo));
@@ -113,7 +113,7 @@ namespace Dagable.Core.JsonConverters
                                 {
                                     case "id":
                                         reader.Read();
-                                        id = reader.GetInt32();
+                                        id = reader.GetInt32() - 1;
                                         break;
                                     case "level":
                                         reader.Read();
