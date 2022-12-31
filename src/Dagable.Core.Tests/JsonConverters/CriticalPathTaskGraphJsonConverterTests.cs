@@ -18,11 +18,11 @@ namespace Dagable.Core.Tests.JsonConverters
 
         private static readonly HashSet<CriticalPathNode> _criticalNodes = new()
         {
-            new CriticalPathNode(1, 0, 10), //0
-            new CriticalPathNode(2, 1, 1), //1
-            new CriticalPathNode(3, 1, 10), //2
-            new CriticalPathNode(4, 2, 10), //3
-            new CriticalPathNode(5, 2, 1), //4
+            new CriticalPathNode(0, 0, 10), //0
+            new CriticalPathNode(1, 1, 1), //1
+            new CriticalPathNode(2, 1, 10), //2
+            new CriticalPathNode(3, 2, 10), //3
+            new CriticalPathNode(4, 2, 1), //4
         };
 
         private static readonly HashSet<CriticalPathEdge> _criticalEdges = new()
