@@ -1,7 +1,9 @@
 ﻿using Dagable.Core.Models;
+using Dagable.Core.Scheduling;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -16,11 +18,11 @@ namespace Dagable.Core.Tests.JsonConverters
 
         private static readonly HashSet<CriticalPathNode> _criticalNodes = new()
         {
-            new CriticalPathNode(1, 0, 10), //0
-            new CriticalPathNode(2, 1, 1), //1
-            new CriticalPathNode(3, 1, 10), //2
-            new CriticalPathNode(4, 2, 10), //3
-            new CriticalPathNode(5, 2, 1), //4
+            new CriticalPathNode(0, 0, 10), //0
+            new CriticalPathNode(1, 1, 1), //1
+            new CriticalPathNode(2, 1, 10), //2
+            new CriticalPathNode(3, 2, 10), //3
+            new CriticalPathNode(4, 2, 1), //4
         };
 
         private static readonly HashSet<CriticalPathEdge> _criticalEdges = new()
@@ -61,5 +63,35 @@ namespace Dagable.Core.Tests.JsonConverters
             Assert.AreEqual(_criticalPathTaskGraphJsonResult, jsonString);
         }
 
+        [TestMethod]
+        public void When_ConvertingCriticalTaskGraph_FromJson_ValueIsCorrect()
+        {
+            var desObject = JsonSerializer.Deserialize<ICriticalPathTaskGraph>(_criticalPathTaskGraphJsonResult);
+            Assert.AreEqual(_criticalTaskGraph.Object.Nodes.Count, desObject.Nodes.Count);
+            Assert.AreEqual(_criticalTaskGraph.Object.Edges.Count, desObject.Edges.Count);
+        }
+
+        [TestMethod]
+        public void DLSSchedule()
+        {
+            var desObject = JsonSerializer.Deserialize<ICriticalPathTaskGraph>(_criticalPathTaskGraphJsonResult);
+
+            var scheduler = new DLScheduler(3, desObject);
+
+            var results = scheduler.Schedule();
+
+            Assert.IsNotNull(results);
+#if DEBUG
+            foreach (var res in results)
+            {
+                Debug.WriteLine($"processor: {res.Key + 1}");
+                foreach (var item in res.Value)
+                {
+                    Debug.WriteLine($"    item: {item.Id + 1}, start: {item.StartAt} end: {item.EndAt}");
+                }
+            }
+
+#endif
+        }
     }
 }

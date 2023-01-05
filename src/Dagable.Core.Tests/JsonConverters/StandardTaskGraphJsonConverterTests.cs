@@ -15,11 +15,11 @@ namespace Dagable.Core.Tests.JsonConverters
 
         private static readonly HashSet<StandardNode> _standardNodes = new()
         {
-            new StandardNode(1, 0), //0
-            new StandardNode(2, 1), //1
-            new StandardNode(3, 1), //2
-            new StandardNode(4, 2), //3
-            new StandardNode(5, 2), //4
+            new StandardNode(0, 0), //0
+            new StandardNode(1, 1), //1
+            new StandardNode(2, 1), //2
+            new StandardNode(3, 2), //3
+            new StandardNode(4, 2), //4
         };
 
         private static readonly HashSet<StandardEdge<StandardNode>> _standardEdges = new()
