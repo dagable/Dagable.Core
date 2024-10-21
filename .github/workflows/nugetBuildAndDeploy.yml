@@ -35,7 +35,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.100
+          dotnet-version: 8.0
       - name: Restore Dagable.Core.Scheduling
         run: dotnet restore ./src/$PROJECT_NAME_CORE_SCHEDULING
       - name: Build Dagable.Core.Scheduling
@@ -88,7 +88,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.100
+          dotnet-version: 8.0
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
