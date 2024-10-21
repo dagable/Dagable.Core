@@ -39,7 +39,7 @@ namespace Dagable.Core.Scheduling
 
             while (readyNodePool.Any())
             {
-                var NodeProcessorPair = new List<Tuple<UnscheduledNode, int[], int[]>>();
+                var nodeProcessorPair = new List<Tuple<UnscheduledNode, int[], int[]>>();
                 foreach (var node in readyNodePool.OrderByDescending(x => NodeStaticBLevelMappings[x.Node] - NodeTLevelMappings[x.Node]))
                 {
                     var processorDL = new int[_processorCount];
@@ -50,11 +50,11 @@ namespace Dagable.Core.Scheduling
                         processorDL[i] = NodeStaticBLevelMappings[node.Node] - NodeTLevelMappings[node.Node];
                         processorELS[i] = earliestStartTime;
                     }
-                    NodeProcessorPair.Add(new Tuple<UnscheduledNode, int[], int[]>(node, processorDL, processorELS));
+                    nodeProcessorPair.Add(new Tuple<UnscheduledNode, int[], int[]>(node, processorDL, processorELS));
                 }
 
-                var maxDl = NodeProcessorPair.SelectMany(x => x.Item2).Max();
-                var maxDlPair = NodeProcessorPair.First(x => x.Item2.Contains(maxDl));
+                var maxDl = nodeProcessorPair.SelectMany(x => x.Item2).Max();
+                var maxDlPair = nodeProcessorPair.First(x => x.Item2.Contains(maxDl));
                 var processor = maxDlPair.Item3.ToList().IndexOf(maxDlPair.Item3.Min());
                 processedNodes[processor].Add(new ScheduledNode(maxDlPair.Item1.Node, maxDlPair.Item3[processor], maxDlPair.Item3[processor] + maxDlPair.Item1.Node.ComputationTime));
                 readyNodePool.Remove(maxDlPair.Item1);

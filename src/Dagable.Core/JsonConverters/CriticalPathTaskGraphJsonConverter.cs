@@ -9,7 +9,7 @@ using static Dagable.Core.TaskGraph;
 
 namespace Dagable.Core.JsonConverters
 {
-    internal class CriticalPathTaskGraphJsonConverter : JsonConverter<ICriticalPathTaskGraph>
+    public class CriticalPathTaskGraphJsonConverter : JsonConverter<ICriticalPathTaskGraph>
     {
         private const string EDGES_CONST = "edges";
         private const string NODES_CONST = "nodes";
@@ -129,16 +129,17 @@ namespace Dagable.Core.JsonConverters
                                 }
                                 reader.Read();
                             }
-                            if(nodeCollection.Any(x => x.Id == id))
+                            if (nodeCollection.Any(x => x.Id == id))
                             {
                                 var node = nodeCollection.First(x => x.Id == id);
                                 node.UpdateLayer(level);
                                 node.ComputationTime = compTime;
-                            } else
+                            }
+                            else
                             {
                                 nodeCollection.Add(new CriticalPathNode(id, level, compTime));
                             }
-                            
+
                             reader.Read();
                         }
                         break;

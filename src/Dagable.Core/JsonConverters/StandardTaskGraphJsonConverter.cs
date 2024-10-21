@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Dagable.Core.JsonConverters
 {
-    internal class StandardTaskGraphJsonConverter : JsonConverter<IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>>>
+    public class StandardTaskGraphJsonConverter : JsonConverter<IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>>>
     {
         public override IStandardTaskGraph<StandardNode, StandardEdge<StandardNode>> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

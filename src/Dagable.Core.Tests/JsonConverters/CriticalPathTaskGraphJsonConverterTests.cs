@@ -41,6 +41,8 @@ namespace Dagable.Core.Tests.JsonConverters
         };
 
         private static readonly string _criticalPathTaskGraphJsonResult = File.ReadAllText($"{ProjectSourcePath.Value}JsonConverters/JsonConverter.CriticalPathTaskGraph-output.json");
+        private static readonly string _criticalPathTaskGraphListJsonResult = File.ReadAllText($"{ProjectSourcePath.Value}JsonConverters/JsonConverter.CriticalPathTaskGraphList-output.json");
+
         private const int layer = 3;
 
         public CriticalPathTaskGraphJsonConverterTests()
@@ -61,6 +63,17 @@ namespace Dagable.Core.Tests.JsonConverters
             };
             var jsonString = JsonSerializer.Serialize(_criticalTaskGraph.Object, serializeOptions);
             Assert.AreEqual(_criticalPathTaskGraphJsonResult, jsonString);
+        }
+
+        [TestMethod]
+        public void When_ConvertingCrtiicalTaskGraphsList_ToJson_ValueIsCorrectFormat()
+        {
+            var serializeOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            var jsonString = JsonSerializer.Serialize(new [] { _criticalTaskGraph.Object, _criticalTaskGraph.Object }, serializeOptions);
+            Assert.AreEqual(_criticalPathTaskGraphListJsonResult, jsonString);
         }
 
         [TestMethod]
